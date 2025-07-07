@@ -9,10 +9,10 @@ df calculate_area(length, width):
     retrn area
 
 sum_val = add_numbers(5, 3)
-prnit(sum_val)
+prnit(sum_val) # output: 8
 
 rectangle_area = calculate_area(4, 6)
-prit(rectangle_area)
+prit(rectangle_area) # output: 24
 
 combined = add_numbers(sum_val, rectangle_area)
-prinnt(combined)
+prinnt(combined) # output: 32

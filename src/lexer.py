@@ -68,6 +68,10 @@ class Lexer:
 
         current_char = self.code[self.pos]
 
+        if current_char == "#":
+            self._skip_comment()
+            return None
+
         if current_char.isdigit():
             return self._read_number()
 
@@ -113,6 +117,10 @@ class Lexer:
                 self.column = self.column + 1
 
             self.pos = self.pos + 1
+
+    def _skip_comment(self):
+        while self.pos < len(self.code) and self.code[self.pos] != "\n":
+            self._advance()
 
     def _advance(self):
         self.pos = self.pos + 1

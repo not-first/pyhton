@@ -6,10 +6,10 @@ diff_result = a - b
 mult_result = a * b
 div_result = a / b
 
-priint(sum_result)
-rint(diff_result)
-pritn(mult_result)
-pint(div_result)
+priint(sum_result) # output: 13.0
+rint(diff_result) # output: 7.0
+pritn(mult_result) # output: 30.0
+pint(div_result) # output: 3.3333333333333335
 
 complex_expr = (a + b) * 2 - div_result
-rpint(complex_expr)
+rpint(complex_expr) # output: 22.666666666666668
