@@ -3,29 +3,12 @@
 # first verion, contains only very simple words
 
 KEYWORDS = {
-    # function definition
-    "def",
-    "return",
-    # control flow
-    "if",
-    "else",
-    "elif",
-    # loops
-    "for",
-    "while",
-    # imports
-    "import",
-    "from",
+    "def",  # function definition
+    "return",  # return statement
 }
 
 BUILTINS = {
-    # functions
-    "print",
-    "input",
-    "len",
-    "str",
-    "int",
-    "float",
+    "print",  # print function
 }
 
 ALL_WORDS = KEYWORDS | BUILTINS
@@ -36,11 +19,6 @@ OPERATORS = {
     "-",
     "*",
     "/",
-    # comparison
-    "==",
-    "!=",
-    "<",
-    ">",
     # assignment
     "=",
 }

@@ -1,9 +1,9 @@
-from tests.test_transpiler import test_transpiler_basic
+from tests.test_lexer import test_basic_lexing
 
 
 def main():
     print("Hello from pyhton!")
-    test_transpiler_basic()
+    test_basic_lexing()
 
 
 if __name__ == "__main__":
