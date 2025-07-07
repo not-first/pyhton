@@ -28,9 +28,7 @@ class TypoEngine:
             char_to_double = original[i]
             after_double = original[i + 1 :]
 
-            doubled_version = (
-                before_double + char_to_double + char_to_double + after_double
-            )
+            doubled_version = before_double + char_to_double + char_to_double + after_double
 
             if doubled_version == typo:
                 return True
@@ -60,9 +58,7 @@ class TypoEngine:
             return False
 
         # swap each pair of adjacent letters and check against typo.
-        for i in range(
-            len(original) - 1
-        ):  # the last letter can't be swapped with anything
+        for i in range(len(original) - 1):  # the last letter can't be swapped with anything
             before_swap = original[:i]
             first_char = original[i]
             second_char = original[i + 1]
