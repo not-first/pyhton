@@ -1,6 +1,6 @@
 """Typo generation and validation logic."""
 
-from .python_words import ALL_WORDS
+from src.python_words import ALL_WORDS
 
 
 class TypoEngine:
@@ -69,7 +69,7 @@ class TypoEngine:
             if swapped_version == typo:
                 return True
 
-            return False
+        return False
 
     def find_original_word(self, typo_word) -> str | None:
         for word in self.valid_words:
