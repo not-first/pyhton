@@ -102,3 +102,11 @@ The interpreter walks the AST and executes the program, maintaining variable sco
 1. Lexer: `prrint` → PRINT token, `5` → NUMBER, `+` → PLUS, `3` → NUMBER
 2. Parser: Creates `PrintStatement(value=BinaryOp(left=5, op='+', right=3))`
 3. Interpreter: Evaluates `5 + 3 = 8`, then prints `8`
+
+# Todo
+- [ ] Add more tests
+- [ ] Add errors for exactly correct words
+- [ ] Add CLI options for:
+  - [ ] Running only certain steps (lexer, parser, interpreter)
+  - [ ] Interactive mode
+  - [ ] Showing debug logs
