@@ -24,7 +24,13 @@ class TypoEngine:
 
         # double each letter in the original word and check against typo
         for i in range(len(original)):
-            doubled_version = original[:i] + original[i] + original[i:]
+            before_double = original[:i]
+            char_to_double = original[i]
+            after_double = original[i + 1 :]
+
+            doubled_version = (
+                before_double + char_to_double + char_to_double + after_double
+            )
 
             if doubled_version == typo:
                 return True
@@ -38,7 +44,10 @@ class TypoEngine:
 
         # remove each letter in the original word and check against typo
         for i in range(len(original)):
-            missing_version = original[:i] + original[i + 1 :]
+            before_missing = original[:i]
+            after_missing = original[i + 1 :]
+
+            missing_version = before_missing + after_missing
 
             if missing_version == typo:
                 return True
