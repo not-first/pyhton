@@ -30,8 +30,8 @@ def test_swapped_letter_typos():
 
     assert engine.find_original_word("pritn") == "print"
     assert engine.find_original_word("esle") == "else"
-    assert engine.find_original_word("Fasle") == "False"
-    assert engine.find_original_word("Treu") == "True"
+    assert engine.find_original_word("fro") == "for"
+    assert engine.find_original_word("fi") == "if"
 
     assert engine.is_valid_typo("pritn", "print")
     assert engine.is_valid_typo("esle", "else")
