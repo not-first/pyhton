@@ -74,3 +74,6 @@ class TypoEngine:
             if self.is_valid_typo(typo_word, word):
                 return word
         return None
+
+    def is_correct_word(self, word: str) -> bool:
+        return word in self.valid_words

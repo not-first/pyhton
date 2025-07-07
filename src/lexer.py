@@ -159,6 +159,9 @@ class Lexer:
 
         value = self.code[start_pos : self.pos]
 
+        if self.typo_engine.is_correct_word(value):
+            raise Exception(f"Error: '{value}' is spelled correctly. It must be a typo.")
+
         correct_word = self.typo_engine.find_original_word(value)
 
         if correct_word == "def":
