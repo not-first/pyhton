@@ -50,6 +50,22 @@ class TypoEngine:
         if len(typo) != len(original):
             return False
 
+        # swap each pair of adjacent letters and check against typo.
+        for i in range(
+            len(original) - 1
+        ):  # the last letter can't be swapped with anything
+            before_swap = original[:i]
+            first_char = original[i]
+            second_char = original[i + 1]
+            after_swap = original[i + 2 :]
+
+            swapped_version = before_swap + second_char + first_char + after_swap
+
+            if swapped_version == typo:
+                return True
+
+            return False
+
     def find_original_word(self, typo_word) -> str | None:
         for word in self.valid_words:
             if self.is_valid_typo(typo_word, word):
