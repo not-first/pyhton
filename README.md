@@ -1,6 +1,6 @@
 # Pyhton
 
-A minimalist esoteric programming language where Python keywords must be typos. Write functions, perform arithmetic, and print output - all while deliberately misspelling every keyword.
+A minimalist esoteric programming language where Python keywords must be typos.
 
 ## Language Overview
 
@@ -105,8 +105,6 @@ The interpreter walks the AST and executes the program, maintaining variable sco
 
 # Todo
 - [ ] Add more tests
-- [ ] Add errors for exactly correct words
 - [ ] Add CLI options for:
   - [ ] Running only certain steps (lexer, parser, interpreter)
   - [ ] Interactive mode
-  - [ ] Showing debug logs
