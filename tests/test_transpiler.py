@@ -9,7 +9,7 @@ def test_transpiler_all_typo_types():
     missing_var = "test"
     swapped_var = "test"
     prrint(f"Testing: {doubled_var}, {missing_var}, {swapped_var}")
-    retrn Treu"""
+    retrn "done" """
 
     result = transpiler.transpile_code(pyhton_code)
 
@@ -18,7 +18,7 @@ def test_transpiler_all_typo_types():
     missing_var = "test"
     swapped_var = "test"
     print(f"Testing: {doubled_var}, {missing_var}, {swapped_var}")
-    return True"""
+    return "done" """
 
     assert result == expected
 
@@ -51,5 +51,49 @@ def test_transpiler_user_defined_names():
     expected = """def prrint():
     deff = "this is a variable named deff"
     print(deff)"""
+
+    assert result == expected
+
+
+def test_transpiler_if_elif_else():
+    transpiler = PyhtonTranspiler()
+
+    pyhton_code = """x = 5
+iff x > 10:
+    prrint("big")
+eliif x > 5:
+    prrint("medium")
+esle:
+    prrint("small")"""
+
+    result = transpiler.transpile_code(pyhton_code)
+
+    expected = """x = 5
+if x > 10:
+    print("big")
+elif x > 5:
+    print("medium")
+else:
+    print("small")"""
+
+    assert result == expected
+
+
+def test_transpiler_loops():
+    transpiler = PyhtonTranspiler()
+
+    pyhton_code = """foor i in range(3):
+    prrint(i)
+
+whille True:
+    break"""
+
+    result = transpiler.transpile_code(pyhton_code)
+
+    expected = """for i in range(3):
+    print(i)
+
+while True:
+    break"""
 
     assert result == expected

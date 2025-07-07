@@ -3,20 +3,19 @@
 # first verion, contains only very simple words
 
 KEYWORDS = {
-    # variables and assigning
+    # function definition
     "def",
     "return",
+    # control flow
     "if",
     "else",
     "elif",
-    # basic literals
-    "True",
-    "False",
-    "None",
-    # word compmarison
-    "and",
-    "or",
-    "not",
+    # loops
+    "for",
+    "while",
+    # imports
+    "import",
+    "from",
 }
 
 BUILTINS = {
