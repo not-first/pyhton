@@ -24,7 +24,7 @@ class PyhtonTranspiler:
 
         result = []
         for word in words:
-            if word.isalpha():
+            if word.isalpha() and len(word) > 1:
                 original = self.typo_engine.find_original_word(word)
                 if original:
                     result.append(original)
