@@ -1,54 +1,104 @@
 # Pyhton
 
-An python-based esolang where every word has to be a typo.
+A minimalist esoteric programming language where Python keywords must be typos. Write functions, perform arithmetic, and print output - all while deliberately misspelling every keyword.
 
-## Type Rules
-Typos have to be 'realistic'. This means any valid typo of the normal python words will work, as long as it fits into one of these categories:
-- a letter is repeated twice (prrint)
-- a letter is missing (prnt)
-- a letter is swapped with another (pritn)
+## Language Overview
 
-**Typos have to be one of these types, or they are not considered valid. It is your responsibility to ensure you are meeting these syntax requirements.**
+Pyhton is a Python-inspired language that requires all keywords and builtins to be realistic typos of their correct counterparts. The language supports:
 
-*Maybe in the future when a letter is mistyped due to accidentally hitting an adjacent key (peint). The adjacent key typo only considers QWERTY keyboards.*
+- **Function definitions** with parameters (`deff`, `retrn`)
+- **Variable assignments** and arithmetic (`+`, `-`, `*`, `/`)
+- **Print statements** for output (`prrint`)
+- **Typo tolerance** - any valid typo of a keyword works
 
-## Language Behaviour Plan
-When code is executed in this esolang it should:
-1. **Validate**: Check that each word is a valid typo of a correct python word
-2. **Error Handling**: If invalid, throw an error suggesting valid typos
-3. **Convert**: Tranform valid pyhton code into correct python
-4. **Execute**: Run the python code.
-
-**Maybe in the future, typos should cover variable names too, in most common casings. Every variable MUST be a type of a valid word.**
-
-## Syntax Example
+Example pyhton code:
 ```python
-# valid pyhton code (,yp file):
-deff hello_wrold():
-  prunt("Helo, Wordl!")
-  retrn True
+deff add_numbers(a, b):
+    result = a + b
+    prrint(result)
+    retrn result
 ```
 
-# Project
-## Planned Structure
-pyhton/
-├── pyproject.toml        # uv project configuration
-├── README.md
-├── src/
-│   └── pyhton/
-│       ├── __init__.py
-│       ├── lexer.py          # Tokenizes .yp files
-│       ├── validator.py      # Validates typos against Python keywords
-│       ├── transpiler.py     # Converts valid typos back to Python
-│       ├── python_words.py   # Database of Python keywords/builtins
-│       ├── typo_engine.py    # Core typo generation and validation logic
-│       └── cli.py            # Command-line interface for running .yp files
-├── examples/
-│   ├── hello_world.yp
-│   ├── fibonacci.yp
-│   └── classes.yp
-└── tests/
-    ├── __init__.py
-    ├── test_validator.py
-    ├── test_transpiler.py
-    └── test_typo_engine.py
+## Typo Rules
+
+A typo is considered valid if it follows one of these patterns:
+
+1. **Doubled letter**: `prrint` (print with extra 'r')
+2. **Missing letter**: `def` → `de` (missing 'f')
+3. **Swapped letters**: `print` → `pritn` (i and t swapped)
+
+**Only keywords and builtins need to be typos** - variable names and user-defined function names can be spelled correctly.
+
+## Language Capabilities
+
+Currently supported:
+- Function definitions with parameters
+- Variable assignments
+- Arithmetic expressions (`+`, `-`, `*`, `/`)
+- Print statements
+- Return statements
+- Local and global variable scopes
+
+Supported keywords (must be typo'd):
+- `def` → `deff`, `de`, `edf`, etc.
+- `return` → `retrn`, `retrun`, `retur`, etc.
+- `print` → `prrint`, `pint`, `pritn`, etc.
+
+## Try It Yourself
+
+### Installation
+
+```bash
+git clone <repo-url>
+cd pyhton
+uv install -e .
+```
+
+### Running Code
+
+Create a `.yp` file with pyhton code:
+
+```python
+# example.yp
+deff greet(name):
+    message = "Hello, " + name
+    prrint(message)
+    retrn message
+
+result = greet("World")
+```
+
+Run it:
+```bash
+uv run pyhton example.yp
+```
+
+### Execution Pipeline
+
+Here's what happens when you run a `.yp` file:
+
+**1. Lexical Analysis (Lexer)**
+```
+Input: "deff add(a, b):"
+Output: [DEF, IDENTIFIER, LPAREN, IDENTIFIER, COMMA, IDENTIFIER, RPAREN, COLON]
+```
+The lexer breaks code into tokens and uses the typo engine to identify `deff` as a typo of `def`.
+
+**2. Syntax Analysis (Parser)**
+```
+Tokens: [DEF, IDENTIFIER, ...]
+Output: FunctionDef(name='add', params=['a', 'b'], body=[...])
+```
+The parser builds an Abstract Syntax Tree representing the program structure.
+
+**3. Execution (Interpreter)**
+```
+AST: FunctionDef(...)
+Output: Function stored in memory, ready to be called
+```
+The interpreter walks the AST and executes the program, maintaining variable scopes and function definitions.
+
+**Example trace for `prrint(5 + 3)`:**
+1. Lexer: `prrint` → PRINT token, `5` → NUMBER, `+` → PLUS, `3` → NUMBER
+2. Parser: Creates `PrintStatement(value=BinaryOp(left=5, op='+', right=3))`
+3. Interpreter: Evaluates `5 + 3 = 8`, then prints `8`
