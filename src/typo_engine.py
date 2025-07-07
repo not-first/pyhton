@@ -76,9 +76,3 @@ class TypoEngine:
             if self.is_valid_typo(typo_word, word):
                 return word
         return None
-
-    def suggest_valid_typos(self, originalword: str) -> list[str]:
-        # to be used to error messages, add this later
-        suggestions = []
-
-        return suggestions
