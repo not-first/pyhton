@@ -1,6 +1,7 @@
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
 from typing import List, Optional
+
 from .typo_engine import TypoEngine
 
 
@@ -8,6 +9,7 @@ class TokenType(Enum):
     # literals
     NUMBER = "NUMBER"
     IDENTIFIER = "IDENTIFIER"
+    STRING = "STRING"
 
     # keywords
     DEF = "DEF"
@@ -69,6 +71,9 @@ class Lexer:
         if current_char.isdigit():
             return self._read_number()
 
+        if current_char == '"':
+            return self._read_string()
+
         if current_char.isalpha() or current_char == "_":
             return self._read_identifier()
 
@@ -122,6 +127,20 @@ class Lexer:
 
         value = self.code[start_pos : self.pos]
         return Token(TokenType.NUMBER, value, self.line, start_column)
+
+    def _read_string(self) -> Token:
+        start_column = self.column
+        self._advance()  # skip opening quote
+
+        value = ""
+        while self.pos < len(self.code) and self.code[self.pos] != '"':
+            value = value + self.code[self.pos]
+            self._advance()
+
+        if self.pos < len(self.code):
+            self._advance()  # skip closing quote
+
+        return Token(TokenType.STRING, value, self.line, start_column)
 
     def _read_identifier(self) -> Token:
         start_pos = self.pos

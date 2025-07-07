@@ -1,15 +1,17 @@
-from typing import Any, List
+from typing import Any, Dict, List
+
 from .parser import (
-    ASTNode,
-    Program,
-    FunctionDef,
     Assignment,
-    Return,
-    PrintStatement,
+    ASTNode,
     BinaryOp,
     FunctionCall,
+    FunctionDef,
     Identifier,
     NumberLiteral,
+    StringLiteral,
+    PrintStatement,
+    Program,
+    Return,
 )
 
 
@@ -26,8 +28,10 @@ class ReturnException(Exception):
 
 
 class Interpreter:
-    def __init__(self, value: Any):
-        self.value = value
+    def __init__(self):
+        self.globals: Dict[str, Any] = {}
+        self.functions: Dict[str, PyhtonFunction] = {}
+        self.locals_stack: List[Dict[str, Any]] = []
 
     def interpret(self, program: Program):
         for statement in program.statements:
@@ -35,6 +39,9 @@ class Interpreter:
 
     def _execute(self, node: ASTNode) -> Any:
         if isinstance(node, NumberLiteral):
+            return node.value
+
+        elif isinstance(node, StringLiteral):
             return node.value
 
         elif isinstance(node, Identifier):
@@ -122,7 +129,7 @@ class Interpreter:
 
         raise Exception(f"Unknown variable: {name}")
 
-    def _set_variable(self, name: str, value, Any):
+    def _set_variable(self, name: str, value: Any):
         # set in local scope if in function, otherwise use global scope
         if self.locals_stack:
             self.locals_stack[-1][name] = value

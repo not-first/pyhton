@@ -8,7 +8,7 @@ div_result = a / b
 
 priint(sum_result)
 rint(diff_result)
-prritn(mult_result)
+pritn(mult_result)
 pint(div_result)
 
 complex_expr = (a + b) * 2 - div_result

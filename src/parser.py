@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Optional
+
 from .lexer import Token, TokenType
 
 
@@ -13,6 +14,11 @@ class ASTNode:
 @dataclass
 class NumberLiteral(ASTNode):
     value: float
+
+
+@dataclass
+class StringLiteral(ASTNode):
+    value: str
 
 
 @dataclass
@@ -195,6 +201,9 @@ class Parser:
     def _primary(self) -> ASTNode:
         if self._match(TokenType.NUMBER):
             return NumberLiteral(float(self._previous().value))
+
+        if self._match(TokenType.STRING):
+            return StringLiteral(self._previous().value)
 
         if self._match(TokenType.IDENTIFIER):
             name = self._previous().value
