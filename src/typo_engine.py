@@ -18,13 +18,13 @@ class TypoEngine:
         )
 
     def _is_doubled_letter(self, typo: str, original: str) -> bool:
-        # verify that the typo is 1 character longer:
+        # verify that the typo is 1 character longer
         if len(typo) != len(original) + 1:
             return False
 
         # double each letter in the original word and check against typo
         for i in range(len(original)):
-            doubled_version = original[:i] | original[i] + original[i:]
+            doubled_version = original[:i] + original[i] + original[i:]
 
             if doubled_version == typo:
                 return True
@@ -32,12 +32,23 @@ class TypoEngine:
         return False
 
     def _is_missing_letter(self, typo: str, original: str) -> bool:
-        # i will add this functionality later
-        pass
+        # verify that the typo is 1 character shorter
+        if len(typo) != len(original) - 1:
+            return False
+
+        # remove each letter in the original word and check against typo
+        for i in range(len(original)):
+            missing_version = original[:i] + original[i + 1 :]
+
+            if missing_version == typo:
+                return True
+
+        return False
 
     def _is_swapped_letters(self, typo: str, original: str) -> bool:
-        # I will add this functionality later
-        pass
+        # verify that the typo is the same length
+        if len(typo) != len(original):
+            return False
 
     def find_original_word(self, typo_word) -> str | None:
         for word in self.valid_words:
