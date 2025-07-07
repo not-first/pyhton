@@ -1,6 +1,4 @@
-"""Typo generation and validation logic."""
-
-from src.python_words import ALL_WORDS
+from .python_words import ALL_WORDS
 
 
 class TypoEngine:

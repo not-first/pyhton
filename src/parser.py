@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from typing import List, Optional, Any, Union
-from src.lexer import Token, TokenType
+from typing import List, Optional
+from .lexer import Token, TokenType
 
 
 # base node

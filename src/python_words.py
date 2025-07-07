@@ -1,5 +1,3 @@
-"""Collection of python words to validate against."""
-
 # first verion, contains only very simple words
 
 KEYWORDS = {

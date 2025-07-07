@@ -1,7 +1,7 @@
 import sys
-from src.lexer import Lexer
-from src.parser import Parser
-from src.interpreter import Interpreter
+from .lexer import Lexer
+from .parser import Parser
+from .interpreter import Interpreter
 
 
 def run_pyhton_file(filename: str):

@@ -6,10 +6,10 @@ diff_result = a - b
 mult_result = a * b
 div_result = a / b
 
-prrint(sum_result)
-prrint(diff_result)
-prrint(mult_result)
-prrint(div_result)
+priint(sum_result)
+rint(diff_result)
+prritn(mult_result)
+pint(div_result)
 
 complex_expr = (a + b) * 2 - div_result
-prrint(complex_expr)
+rpint(complex_expr)

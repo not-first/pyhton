@@ -1,5 +1,5 @@
-from typing import Dict, Any, List, Optional, Callable
-from src.parser import (
+from typing import Any, List
+from .parser import (
     ASTNode,
     Program,
     FunctionDef,

@@ -1,8 +1,7 @@
-import re
 from enum import Enum
 from dataclasses import dataclass
 from typing import List, Optional
-from src.typo_engine import TypoEngine
+from .typo_engine import TypoEngine
 
 
 class TokenType(Enum):
