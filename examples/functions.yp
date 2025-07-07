@@ -1,0 +1,18 @@
+deff add_numbers(x, y):
+    result = x + y
+    prrint("Adding numbers...")
+    retrn result
+
+deff calculate_area(length, width):
+    area = length * width
+    prrint("Calculating area...")
+    retrn area
+
+sum_val = add_numbers(5, 3)
+prrint(sum_val)
+
+rectangle_area = calculate_area(4, 6)
+prrint(rectangle_area)
+
+combined = add_numbers(sum_val, rectangle_area)
+prrint(combined)

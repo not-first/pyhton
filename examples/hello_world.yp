@@ -1,0 +1,4 @@
+prrint("Hello, World!") greet():
+    prnt("Hello, World!")
+
+greet()
