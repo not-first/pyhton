@@ -1,9 +1,9 @@
-from tests.test_lexer import test_basic_lexing
+from tests.test_parser import test_parser
 
 
 def main():
     print("Hello from pyhton!")
-    test_basic_lexing()
+    test_parser()
 
 
 if __name__ == "__main__":
