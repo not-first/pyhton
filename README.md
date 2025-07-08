@@ -54,28 +54,9 @@ Currently supported:
 - Conditional statements with logical and comparison operators
 - Loop constructs (for loops on strings and ranges, while loops)
 - Comments (lines starting with `#`)
-- Nested conditionals and loops (supported with explicit end keywords)
 
-Supported keywords (must be typo'd):
-- `def` → `deff`, `de`, `edf`, etc.
-- `endfunc` → `endfnc`, `endfucn`, `endunc`, etc.
-- `return` → `retrn`, `retrun`, `retur`, etc.
-- `print` → `prrint`, `pint`, `pritn`, etc.
-- `range` → `rangee`, `rnage`, `rang`, etc.
-- `if` → `fi`, `iff`, `f`, etc.
-- `else` → `ese`, `els`, `esle`, etc.
-- `elif` → `eliff`, `eli`, `elfi`, etc.
-- `endif` → `endiff`, `endf`, `endiif`, etc.
-- `for` → `ffor`, `fr`, `ofr`, etc.
-- `in` → `ni`, `inn`, etc.
-- `endfor` → `endfooor`, `enfdor`, `endfr`, etc.
-- `while` → `whiel`, `whhile`, `wile`, etc.
-- `endwhile` → `endwihle`, `endwile`, `endwhille`, etc.
-- `and` → `aand`, `nd`, `adn`, etc.
-- `or` → `orr`, `r`, `ro`, etc.
-- `not` → `nott`, `nt`, `ont`, etc.
-- `True` → `Truee`, `Tru`, `Ture`, etc.
-- `False` → `Flase`, `Fals`, `Fasle`, etc.
+Support keywords:
+`def`, `endfunc`, `return`, `print`, `range`, `if`, `else`, `elif`, `endif`, `for`, `in`, `endfor`, `while`, `endwhile`, `and`, `or`, `not`, `True`, `False`
 
 ## Try It Yourself
 
