@@ -22,6 +22,7 @@ KEYWORDS = {
 
 BUILTINS = {
     "print",  # print function
+    "range",  # range function
 }
 
 ALL_WORDS = KEYWORDS | BUILTINS

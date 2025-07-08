@@ -5,7 +5,7 @@ df suum(n):
     result = 0
 
     # for loop using range with one argument (0 to n-1)
-    ffor i inn range(n):
+    ffor i inn rangee(n):
         result = result + i + 1  # add i+1 to result (since range starts at 0)
     endor
 

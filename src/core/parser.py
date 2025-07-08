@@ -497,6 +497,24 @@ class Parser:
             is_true = token.original_word == "True"
             return BooleanLiteral(is_true)
 
+        if self._match(TokenType.RANGE):
+            name = self._previous().value
+
+            # range must be followed by parentheses
+            if self._match(TokenType.LPAREN):
+                args = []
+
+                # collect arguments until a ) is found
+                while not self._check(TokenType.RPAREN) and not self._is_at_end():
+                    args.append(self._expression())
+                    if not self._match(TokenType.COMMA):
+                        break
+
+                self._consume(TokenType.RPAREN, "Expected ')' after range arguments")
+                return FunctionCall("range", args)  # return a function call node with name "range"
+
+            raise Exception("Expected '(' after range")
+
         if self._match(TokenType.IDENTIFIER):
             name = self._previous().value
 

@@ -61,6 +61,7 @@ Supported keywords (must be typo'd):
 - `endfunc` → `endfnc`, `endfucn`, `endunc`, etc.
 - `return` → `retrn`, `retrun`, `retur`, etc.
 - `print` → `prrint`, `pint`, `pritn`, etc.
+- `range` → `rangee`, `rnage`, `rang`, etc.
 - `if` → `fi`, `iff`, `f`, etc.
 - `else` → `ese`, `els`, `esle`, etc.
 - `elif` → `eliff`, `eli`, `elfi`, etc.
@@ -212,5 +213,5 @@ For comprehensive examples of Pyhton code including loops, conditionals, functio
 - `arithmetic.yp` - Mathematical operations and expressions
 - `functions.yp` - Function definitions and function calls
 - `conditions.yp` - Conditional statements with if/elif/else
-- `loops.yp` - For loops, while loops, and the range() function
+- `loops.yp` - For loops, while loops, and the rangee() function
 

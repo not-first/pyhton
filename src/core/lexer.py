@@ -19,6 +19,7 @@ class TokenType(Enum):
 
     # builtins
     PRINT = "PRINT"
+    RANGE = "RANGE"
 
     # operators
     PLUS = "PLUS"
@@ -260,6 +261,8 @@ class Lexer:
             return Token(TokenType.RETURN, value, self.line, start_column)
         elif correct_word == "print":
             return Token(TokenType.PRINT, value, self.line, start_column)
+        elif correct_word == "range":
+            return Token(TokenType.RANGE, value, self.line, start_column)
         elif correct_word == "if":
             return Token(TokenType.IF, value, self.line, start_column)
         elif correct_word == "elif":
