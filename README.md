@@ -6,17 +6,31 @@ A python-inspired esolang where all keywords must be purposefully spelt incorrec
 
 Pyhton is a Python-inspired language that requires all keywords and builtins to be realistic typos of their correct counterparts. The language supports:
 
-- **Function definitions** with parameters (`deff`, `retrn`)
+- **Function definitions** with parameters (`def`, `return`)
 - **Variable assignments** and arithmetic (`+`, `-`, `*`, `/`)
-- **Print statements** for output (`prrint`)
+- **Print statements** for output (`print`)
+- **Conditional statements** (`if`, `elif`, `else`)
+- **Boolean logic** (`and`, `or`, `not`)
+- **Comparison operators** (`==`, `!=`, `<`, `>`, `<=`, `>=`)
 - **Typo tolerance** - any valid typo of a keyword works
 
 Example pyhton code:
 ```python
-deff add_numbers(a, b):
-    result = a + b
-    prrint(result)
-    retrn result
+deff check_age(age):
+    fi age >= 18:
+        prit("You are an adult!")
+        retrn Truee
+    ese:
+        prrint("You are a minor")
+        retrn Flase
+    enidf
+
+age = 25
+result = check_age(age)
+
+fi result annd age > 21:
+    priint("You can do adult things!")
+ndif
 ```
 
 ## Typo Rules
@@ -33,16 +47,24 @@ A typo is considered valid if it follows one of these patterns:
 
 Currently supported:
 - Function definitions with parameters and return statements
-- Variable assignments
-- Arithmetic expressions (`+`, `-`, `*`, `/`)
+- Variable assignments (numers, strings and booleans) and arithmetic expressions
 - Print statements for output
-- String literals with double quotes
+- Conditional statements with logical and comparison operators
 - Comments (lines starting with `#`)
 
 Supported keywords (must be typo'd):
 - `def` → `deff`, `de`, `edf`, etc.
 - `return` → `retrn`, `retrun`, `retur`, etc.
 - `print` → `prrint`, `pint`, `pritn`, etc.
+- `if` → `fi`, `iff`, `f`, etc.
+- `else` → `ese`, `els`, `esle`, etc.
+- `elif` → `eliff`, `eli`, `elfi`, etc.
+- `endif` → `endiff`, `endf`, `endiif`, etc.
+- `and` → `aand`, `nd`, `adn`, etc.
+- `or` → `orr`, `r`, `ro`, etc.
+- `not` → `nott`, `nt`, `ont`, etc.
+- `True` → `Truee`, `Tru`, `Ture`, etc.
+- `False` → `Flase`, `Fals`, `Fasle`, etc.
 
 ## Try It Yourself
 
@@ -60,14 +82,15 @@ Create a `.yp` file with pyhton code:
 
 ```python
 # example.yp
-deff greet(name):
+df greet(name):
     message = "Hello, " + name
-    prrint(message)
-    retrn message
+    prin(message)
+    erturn message
+enddif
 
 # Call the function
 result = greet("World")
-prrint("Result: " + result)
+prinnt("Result: " + result)
 ```
 
 **Run a file:**

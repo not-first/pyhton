@@ -176,7 +176,6 @@ class Parser:
         else:
             return self._assignment_or_expression()
 
-    # COMMENT THIS
     def _if_statement(self) -> IfStatement:
         condition = self._expression()
         self._advance()  # skip the :
@@ -185,16 +184,17 @@ class Parser:
         while self._match(TokenType.NEWLINE):
             pass
 
-        # parse the body of 'then' body
+        # parse the then body - continue until a elif, else, or endif is hit
         then_body = []
         while (
             not self._is_at_end()
             and not self._check(TokenType.ELIF)
             and not self._check(TokenType.ELSE)
-            and not self._check(TokenType.DEF)
+            and not self._check(TokenType.ENDIF)
         ):
             if self._match(TokenType.NEWLINE):
                 continue
+
             stmt = self._statement()
             if stmt:
                 then_body.append(stmt)
@@ -214,10 +214,11 @@ class Parser:
                 not self._is_at_end()
                 and not self._check(TokenType.ELIF)
                 and not self._check(TokenType.ELSE)
-                and not self._check(TokenType.DEF)
+                and not self._check(TokenType.ENDIF)
             ):
                 if self._match(TokenType.NEWLINE):
                     continue
+
                 stmt = self._statement()
                 if stmt:
                     elif_body.append(stmt)
@@ -234,12 +235,17 @@ class Parser:
                 pass
 
             else_body = []
-            while not self._is_at_end() and not self._check(TokenType.DEF):
+            while not self._is_at_end() and not self._check(TokenType.ENDIF):
                 if self._match(TokenType.NEWLINE):
                     continue
+
                 stmt = self._statement()
                 if stmt:
                     else_body.append(stmt)
+
+        # expect and consume the endif token
+        if not self._match(TokenType.ENDIF):
+            raise Exception(f"Expected 'endif' to close if statement, got {self._current_token()}")
 
         return IfStatement(condition, then_body, elif_clauses, else_body)
 
@@ -313,12 +319,11 @@ class Parser:
     def _expression(self) -> ASTNode:
         return self._logical_or()  # start with logical OR, which has the lowest precedence
 
-    # COMMENT THIS
-
     # private method to handle local OR expressions
     def _logical_or(self) -> ASTNode:
         expr = self._logical_and()
 
+        # while the next token is an OR, create a LogicalOp node
         while self._match(TokenType.OR):
             operator = self._previous().value
             right = self._logical_and()
@@ -330,6 +335,7 @@ class Parser:
     def _logical_and(self) -> ASTNode:
         expr = self._equality()
 
+        # while the next token is an AND, create a LogicalOp node
         while self._match(TokenType.AND):
             operator = self._previous().value
             right = self._equality()
@@ -341,6 +347,7 @@ class Parser:
     def _equality(self) -> ASTNode:
         expr = self._comparison()
 
+        # while the next token is an EQUALS or NOT_EQUALS, create a ComparisonOp node
         while self._match(TokenType.EQUALS, TokenType.NOT_EQUALS):
             operator = self._previous().value
             right = self._comparison()
@@ -352,6 +359,7 @@ class Parser:
     def _comparison(self) -> ASTNode:
         expr = self._addition()
 
+        # while the next token is a comparison operator, create a ComparisonOp node
         while self._match(TokenType.GREATER_THAN, TokenType.GREATER_EQUAL, TokenType.LESS_THAN, TokenType.LESS_EQUAL):
             operator = self._previous().value
             right = self._addition()

@@ -37,6 +37,7 @@ class TokenType(Enum):
     IF = "IF"
     ELIF = "ELIF"
     ELSE = "ELSE"
+    ENDIF = "ENDIF"
 
     # logical operators
     AND = "AND"
@@ -255,6 +256,8 @@ class Lexer:
             return Token(TokenType.ELIF, value, self.line, start_column)
         elif correct_word == "else":
             return Token(TokenType.ELSE, value, self.line, start_column)
+        elif correct_word == "endif":
+            return Token(TokenType.ENDIF, value, self.line, start_column)
         elif correct_word == "and":
             return Token(TokenType.AND, value, self.line, start_column)
         elif correct_word == "or":

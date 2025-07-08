@@ -6,6 +6,7 @@ KEYWORDS = {
     "if",  # if statement
     "elif",
     "else",
+    "endif",  # end if statement
     "and",  # logical operators
     "or",
     "not",
