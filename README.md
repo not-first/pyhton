@@ -32,26 +32,17 @@ A typo is considered valid if it follows one of these patterns:
 ## Language Capabilities
 
 Currently supported:
-- Function definitions with parameters
+- Function definitions with parameters and return statements
 - Variable assignments
 - Arithmetic expressions (`+`, `-`, `*`, `/`)
 - Print statements for output
-- Return statements
 - String literals with double quotes
 - Comments (lines starting with `#`)
-- Local and global variable scopes
-- Interactive REPL mode
 
 Supported keywords (must be typo'd):
 - `def` → `deff`, `de`, `edf`, etc.
 - `return` → `retrn`, `retrun`, `retur`, etc.
 - `print` → `prrint`, `pint`, `pritn`, etc.
-
-Supported features:
-- **String literals**: `"Hello, World!"` (double quotes only)
-- **Comments**: `# This is a comment`
-- **Arithmetic**: `+`, `-`, `*`, `/` with proper precedence
-- **Function calls**: `greet("Alice")`
 
 ## Try It Yourself
 
@@ -96,7 +87,7 @@ pyhton --interactive
 pyhton
 ```
 
-**Run directly with Python:**
+**Run directly with Python (no `uv` required):**
 ```bash
 python main.py example.yp
 ```
@@ -138,6 +129,7 @@ pyhton[4]: exit()
 
 ### Execution Pipeline
 
+This project was created to learn about how programming languges work.
 Here's what happens when you run a `.yp` file:
 
 **1. Lexical Analysis (Lexer)**
@@ -145,7 +137,7 @@ Here's what happens when you run a `.yp` file:
 Input: "deff add(a, b):"
 Output: [DEF, IDENTIFIER, LPAREN, IDENTIFIER, COMMA, IDENTIFIER, RPAREN, COLON]
 ```
-The lexer breaks code into tokens and uses the typo engine to identify `deff` as a typo of `def`.
+The lexer breaks code into tokens, using the custom typo engine to identify `deff` as a typo of `def`.
 
 **2. Syntax Analysis (Parser)**
 ```
@@ -159,7 +151,7 @@ The parser builds an Abstract Syntax Tree representing the program structure.
 AST: FunctionDef(...)
 Output: Function stored in memory, ready to be called
 ```
-The interpreter walks the AST and executes the program, maintaining variable scopes and function definitions.
+The interpreter walks the AST and executes the program.
 
 **Example trace for `prrint("Hello: " + (5 + 3))`:**
 1. Lexer: `prrint` → PRINT, `"Hello: "` → STRING, `+` → PLUS, `(` → LPAREN, `5` → NUMBER, `+` → PLUS, `3` → NUMBER, `)` → RPAREN
@@ -168,8 +160,8 @@ The interpreter walks the AST and executes the program, maintaining variable sco
 
 # Todo
 - [ ] Add more language features:
-  - [ ] Conditional statements (`iff`, `ellse`)
-  - [ ] Loops (`ffor`, `whille`)
+  - [ ] Conditional statements (`fi`, `eliff`, `ese`)
+  - [ ] Loops (`ffor`, `wihle`)
   - [ ] Lists and indexing
 - [ ] Add CLI options for:
   - [ ] Running only certain steps (lexer, parser, interpreter)
