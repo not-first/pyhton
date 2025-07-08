@@ -67,7 +67,7 @@ Supported keywords (must be typo'd):
 - `endif` → `endiff`, `endf`, `endiif`, etc.
 - `for` → `ffor`, `fr`, `ofr`, etc.
 - `in` → `ni`, `inn`, etc.
-- `endfor` → `endfooor`, `endfor`, `endfr`, etc.
+- `endfor` → `endfooor`, `enfdor`, `endfr`, etc.
 - `while` → `whiel`, `whhile`, `wile`, etc.
 - `endwhile` → `endwihle`, `endwile`, `endwhille`, etc.
 - `and` → `aand`, `nd`, `adn`, etc.
@@ -213,7 +213,4 @@ For comprehensive examples of Pyhton code including loops, conditionals, functio
 - `functions.yp` - Function definitions and function calls
 - `conditions.yp` - Conditional statements with if/elif/else
 - `loops.yp` - For loops, while loops, and the range() function
-
-# Todo
-- [ ] Add more built-in functions and data manipulation capabilities
 
