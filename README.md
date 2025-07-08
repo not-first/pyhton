@@ -1,6 +1,6 @@
 # Pyhton
 
-A minimalist esoteric programming language where Python keywords must be typos.
+A python-inspired esolang where all keywords must be purposefully spelt incorrectly.
 
 ## Language Overview
 
