@@ -88,14 +88,112 @@ def run_pyhton_file(filename: str, debug: bool = False):
         print(f"{term.bold_red}Error:{term.normal} {e}")
 
 
+def run_interactive_mode(debug: bool = False):
+    interpreter = Interpreter()
+
+    print(
+        f"{term.bold_cyan}╔══════════════════════════════════════════════════════════════════════════════════════╗{term.normal}"
+    )
+    print(
+        f"{term.bold_cyan}║{term.normal} {term.bold_yellow}🎯 PYHTON INTERACTIVE MODE{term.normal} {term.bold_cyan}║{term.normal}"
+    )
+    print(
+        f"{term.bold_cyan}╚══════════════════════════════════════════════════════════════════════════════════════╝{term.normal}"
+    )
+    print(f"{term.dim}Type your pyhton code line by line. Use 'exit()' or Ctrl+C to quit.{term.normal}")
+    print(f"{term.dim}Remember: all keywords must be typos! (deff, prrint, retrn, etc.){term.normal}")
+    print()
+
+    line_number = 1
+
+    while True:
+        try:
+            prompt = f"{term.bright_green}pyhton[{line_number}]:{term.normal}"
+            code = input(prompt)
+
+            # handle special commands
+            if code.strip.lower() in ["exit()", "quit()", "exit", "quit"]
+                print(f"{term.dim}Goodbye!{term.normal}")
+                break
+
+            if code.strip() == "":
+                continue
+
+            if code.strip.lower() in ["help()", "help"]:
+                print_help()
+                continue
+
+            execute_interactive_line(code, interpreter, debug, line_number)
+            line_number = line_number + 1
+
+        except KeyboardInterrupt:
+            print(f"\n{term.dim}Goodbye!{term.normal}")
+            break
+        except EOFError:
+            print(f"\n{term.dim}Goodbye!{term.normal}")
+            break
+
+def execute_interactive_line(code: str, interpreter: Interpreter, debug: bool, line_number: int):
+    try:
+        if debug:
+            print(f"{term.dim}── Executing line {line_number} ──{term.normal}")
+
+        # tokenize
+        lexer = Lexer(code)
+        tokens = lexer.tokenize()
+
+        if debug:
+            print(f"{term.dim}Tokens: {[f'{t.type.value}({t.value})' for t in tokens if t.type.value != 'EOF']}{term.normal}")
+
+        parser = Parser(tokens)
+        ast = parser.parse()
+
+        if debug:
+            print(f"{term.dim}AST: {[f'{type(node).__name__}' for node in ast.statements]}{term.normal}")
+
+        interpreter.interpret(ast)
+
+    except Exception as e:
+        print(f"{term.bold_red}Error:{term.normal} {e}")
+
+def print_help():
+    """Print help information for interactive mode"""
+    print(f"{term.bold}📚 Pyhton Interactive Help{term.normal}")
+    print(f"{term.dim}─────────────────────────{term.normal}")
+    print("Available commands:")
+    print(f"  {term.bright_green}help(){term.normal} - Show this help message")
+    print(f"  {term.bright_green}exit(){term.normal} - Quit the interactive mode")
+    print()
+    print("Example usage:")
+    print(f"  {term.bright_yellow}a = 5{term.normal}")
+    print(f"  {term.bright_yellow}b = 3{term.normal}")
+    print(f"  {term.bright_yellow}prrint(a + b){term.normal}")
+    print(f"  {term.bright_yellow}deff greet(name):{term.normal}")
+    print(f"  {term.bright_yellow}    prrint(\"Hello, \" + name){term.normal}")
+    print(f"  {term.bright_yellow}    retrn \"Hello, \" + name{term.normal}")
+    print()
+    print("Remember: All keywords must be typos!")
+    print(f"  {term.bright_cyan}def{term.normal} → {term.bright_green}deff, de, edf{term.normal}")
+    print(f"  {term.bright_cyan}print{term.normal} → {term.bright_green}prrint, pint, pritn{term.normal}")
+    print(f"  {term.bright_cyan}return{term.normal} → {term.bright_green}retrn, retrun, retur{term.normal}")
+    print()
+
+
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Pyhton interpreter - Python-based esolang with required typos", prog="pyhton"
     )
     parser.add_argument("filename", help="Path to the .yp file to execute")
     parser.add_argument("--debug", "-d", action="store_true", help="Show debug information for each compilation step")
+    parser.add_argument("--interactive", "-i", action="store_true", help="Start interactive mode (REPL)")
 
     args = parser.parse_args()
+
+    if args.interactive or args.filename is None:
+        run_interactive_mode(debug=args.debug)
+        return
 
     if not args.filename.endswith(".yp"):
         print("Error: File must have .yp extension")
