@@ -1,12 +1,8 @@
-"""
-Main CLI entry point for the Pyhton interpreter.
-"""
-
 import argparse
 import sys
 
-from .cli_modules.file_runner import run_pyhton_file
-from .cli_modules.interactive import run_interactive_mode
+from .cli.file_runner import run_pyhton_file
+from .cli.interactive import run_interactive_mode
 
 
 def main():
@@ -17,19 +13,19 @@ def main():
     parser.add_argument("--debug", "-d", action="store_true", help="Show debug information for each compilation step")
     parser.add_argument("--interactive", "-i", action="store_true", help="Start interactive mode (REPL)")
 
-    args = parser.parse_args()
+    args = parser.parse_args()  # parse arguments supplied from the command being run
 
-    # Interactive mode
+    # handle running interactive mode if the flag is set or no filename is provided
     if args.interactive or args.filename is None:
         run_interactive_mode(debug=args.debug)
         return
 
-    # File execution mode
+    # enforce that the provided filename must end in .yp
     if not args.filename.endswith(".yp"):
         print("Error: File must have .yp extension")
         sys.exit(1)
 
-    run_pyhton_file(args.filename, debug=args.debug)
+    run_pyhton_file(args.filename, debug=args.debug)  # run the file
 
 
 if __name__ == "__main__":
