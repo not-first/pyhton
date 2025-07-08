@@ -4,14 +4,19 @@ from .parser import (
     Assignment,
     ASTNode,
     BinaryOp,
+    BooleanLiteral,
+    ComparisonOp,
     FunctionCall,
     FunctionDef,
     Identifier,
+    IfStatement,
+    LogicalOp,
     NumberLiteral,
     StringLiteral,
     PrintStatement,
     Program,
     Return,
+    UnaryOp,
 )
 
 
@@ -43,7 +48,7 @@ class Interpreter:
 
     # private method to execute a single AST node
     def _execute(self, node: ASTNode) -> Any:
-        # if the node is a number or string, simply return its value
+        # if the node is a number,  string or boolean simply return its value
 
         if isinstance(node, NumberLiteral):
             return node.value
@@ -51,13 +56,32 @@ class Interpreter:
         elif isinstance(node, StringLiteral):
             return node.value
 
-        # if the node is an identifier, retrieve its value
-        elif isinstance(node, Identifier):
-            return self._get_variable(node.name)
+        elif isinstance(node, BooleanLiteral):
+            return node.value
+
+        # if the node is a comparison operation, execute it
+        elif isinstance(node, ComparisonOp):
+            return self._execute_comparison_op(node)
+
+        # if the node is a logical operation, execute it
+        elif isinstance(node, LogicalOp):
+            return self._execute_logical_op(node)
+
+        # if the node is a unary operation, execute it
+        elif isinstance(node, UnaryOp):
+            return self._execute_unary_op(node)
 
         # if the node is a binary operation, execute it
         elif isinstance(node, BinaryOp):
             return self._execute_binary_op(node)
+
+        # if th enode is an if statement, execute it
+        elif isinstance(node, IfStatement):
+            return self._execute_if_statement(node)
+
+        # if the node is an identifier, retrieve its value
+        elif isinstance(node, Identifier):
+            return self._get_variable(node.name)
 
         # if the node is an assignment, set the variable to the evaluated value
         elif isinstance(node, Assignment):
@@ -105,6 +129,68 @@ class Interpreter:
             return left / right
         else:
             raise Exception(f"Unknown operator: {node.operator}")
+
+    # private method to execute a comparison operation
+    def _execute_comparison_op(self, node: ComparisonOp) -> bool:
+        left = self._execute(node.left)
+        right = self._execute(node.right)
+
+        if node.operator == "==":
+            return left == right
+        elif node.operator == "!=":
+            return left != right
+        elif node.operator == "<":
+            return left < right
+        elif node.operator == "<=":
+            return left <= right
+        elif node.operator == ">":
+            return left > right
+        elif node.operator == ">=":
+            return left >= right
+        else:
+            raise Exception(f"Unknown comparison operator: {node.operator}")
+
+    # private method to execute a logical operation
+    def _execute_logical_op(self, node: LogicalOp) -> bool:
+        left = self._execute(node.left)
+
+        if node.op_type == "or":
+            if left:
+                return True
+            return bool(self._execute(node.right))
+        else:  # node.op_type == "and"
+            if not left:
+                return False
+            return bool(self._execute(node.right))
+
+    # private method to execute an unary operation
+    def _execute_unary_op(self, node: UnaryOp) -> Any:
+        operand = self._execute(node.operand)
+
+        return not operand
+
+    # private method to execute an if statement
+    def _execute_if_statement(self, node: IfStatement) -> Any:
+        # evaluate the main condition
+        condition = self._execute(node.condition)
+
+        if condition:
+            # execute the body
+            for statement in node.then_body:
+                self._execute(statement)
+            return
+
+        # check elif clauses
+        for elif_condition, elif_body in node.elif_clauses:
+            if self._execute(elif_condition):
+                for statement in elif_body:
+                    self._execute(statement)
+                return
+
+        # if no conditions matched, execute the else body if it exists
+        if node.else_body:
+            for statement in node.else_body:
+                self._execute(statement)
 
     # private method to execute a function call
     def _execute_function_call(self, node: FunctionCall) -> Any:

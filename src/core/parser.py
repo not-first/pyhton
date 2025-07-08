@@ -50,6 +50,7 @@ class LogicalOp(ASTNode):
     left: ASTNode
     operator: str
     right: ASTNode
+    op_type: str  # "and" or "or"
 
 
 @dataclass
@@ -321,7 +322,7 @@ class Parser:
         while self._match(TokenType.OR):
             operator = self._previous().value
             right = self._logical_and()
-            expr = LogicalOp(expr, operator, right)
+            expr = LogicalOp(expr, operator, right, "or")
 
         return expr
 
@@ -332,7 +333,7 @@ class Parser:
         while self._match(TokenType.AND):
             operator = self._previous().value
             right = self._equality()
-            expr = LogicalOp(expr, operator, right)
+            expr = LogicalOp(expr, operator, right, "and")
 
         return expr
 
@@ -371,15 +372,23 @@ class Parser:
         return expr  # return the expression with all additions and subtractions applied
 
     def _multiplication(self) -> ASTNode:
-        expr = self._primary()  # start with the primary expression (literals, identifiers, etc.)
+        expr = self._unary()  # start with the primary expression (literals, identifiers, etc.)
 
         # if the next token is a * or /, create a BinaryOp node
         while self._match(TokenType.MULTIPLY, TokenType.DIVIDE):
             operator = self._previous().value
-            right = self._primary()
+            right = self._unary()
             expr = BinaryOp(expr, operator, right)
 
         return expr  # return the expression with all multiplications and divisions applied
+
+    def _unary(self) -> ASTNode:
+        if self._match(TokenType.NOT):
+            operator = self._previous().value
+            operand = self._unary()
+            return UnaryOp(operator, operand)
+
+        return self._primary()
 
     # private method to handle primary expressions (literals, identifiers, function calls, etc.)
     def _primary(self) -> ASTNode:
@@ -393,11 +402,6 @@ class Parser:
             token = self._previous()
             is_true = token.original_word == "True"
             return BooleanLiteral(is_true)
-
-        if self._match(TokenType.NOT):
-            operator = self._previous().value
-            operand = self._primary()
-            return UnaryOp(operator, operand)
 
         if self._match(TokenType.IDENTIFIER):
             name = self._previous().value
