@@ -105,6 +105,6 @@ The interpreter walks the AST and executes the program, maintaining variable sco
 
 # Todo
 - [ ] Add more tests
+- [ ] Make normal errors in the interpreter look better, like CLI interactive errors
 - [ ] Add CLI options for:
   - [ ] Running only certain steps (lexer, parser, interpreter)
-  - [ ] Interactive mode

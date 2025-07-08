@@ -1,8 +1,12 @@
 import argparse
 import sys
 
+from blessed import Terminal
+
 from .file_runner import run_pyhton_file
 from .interactive import run_interactive_mode
+
+term = Terminal()
 
 
 def main():
@@ -22,7 +26,7 @@ def main():
 
     # enforce that the provided filename must end in .yp
     if not args.filename.endswith(".yp"):
-        print("Error: File must have .yp extension")
+        print(f"{term.bold_red}Error:{term.normal} File must have .yp extension")
         sys.exit(1)
 
     run_pyhton_file(args.filename, debug=args.debug)  # run the file
