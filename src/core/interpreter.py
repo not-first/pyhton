@@ -60,11 +60,11 @@ class Interpreter:
 
     def _builtin_range(self, args):
         if len(args) == 0 or len(args) > 3:
-            raise Exception(f"{term.bold_red}Error{term.normal}range() expects 1 to 3 arguments")
+            raise Exception("range() expects 1 to 3 arguments")
 
         # make sure all arguments are numbers
         if not all(isinstance(arg, (int, float)) for arg in args):
-            raise Exception(f"{term.bold_red}Error{term.normal}range() expects numeric arguments")
+            raise Exception("range() expects numeric arguments")
 
         # convert all arguments to integers
         args = [int(arg) for arg in args]

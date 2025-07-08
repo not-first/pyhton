@@ -327,9 +327,7 @@ class Parser:
         if self._check(token_type):
             return self._advance()
 
-        raise Exception(
-            f"{term.bold_red}Error:{term.normal}{error_message}, got {self._current_token()}"
-        )  # raise an error if the token doesn't match
+        raise Exception(f"{error_message}, got {self._current_token()}")  # raise an error if the token doesn't match
 
     # private method to parse a function definition
     def _function_def(self) -> FunctionDef:
