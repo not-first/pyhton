@@ -5,8 +5,8 @@ Main CLI entry point for the Pyhton interpreter.
 import argparse
 import sys
 
-from .cli_modules.file_runner import run_pyhton_file
-from .cli_modules.interactive import run_interactive_mode
+from .file_runner import run_pyhton_file
+from .interactive import run_interactive_mode
 
 
 def main():
