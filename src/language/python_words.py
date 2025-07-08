@@ -12,6 +12,11 @@ KEYWORDS = {
     "not",
     "True",  # boolean true
     "False",  # boolean false
+    "for",
+    "in",
+    "endfor",
+    "while",
+    "endwhile",
 }
 
 BUILTINS = {
@@ -19,13 +24,3 @@ BUILTINS = {
 }
 
 ALL_WORDS = KEYWORDS | BUILTINS
-
-OPERATORS = {
-    # basic calculations
-    "+",
-    "-",
-    "*",
-    "/",
-    # assignment
-    "=",
-}

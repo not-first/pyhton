@@ -1,7 +1,10 @@
 from dataclasses import dataclass
 from typing import List, Optional
+from blessed import Terminal
 
 from .lexer import Token, TokenType
+
+term = Terminal()
 
 
 # base node
@@ -65,6 +68,19 @@ class IfStatement(ASTNode):
     then_body: List[ASTNode]
     elif_clauses: List[tuple[ASTNode, List[ASTNode]]]  # (condition, body) pairs
     else_body: Optional[List[ASTNode]]
+
+
+@dataclass
+class ForLoop(ASTNode):
+    variable: str
+    iterable: ASTNode
+    body: List[ASTNode]
+
+
+@dataclass
+class WhileLoop(ASTNode):
+    condition: ASTNode
+    body: List[ASTNode]
 
 
 @dataclass
@@ -167,6 +183,10 @@ class Parser:
     def _statement(self) -> Optional[ASTNode]:
         if self._match(TokenType.IF):
             return self._if_statement()
+        if self._match(TokenType.FOR):
+            return self._for_loop()
+        elif self._match(TokenType.WHILE):
+            return self._while_loop()
         elif self._match(TokenType.DEF):
             return self._function_def()
         elif self._match(TokenType.RETURN):
@@ -244,16 +264,78 @@ class Parser:
                     else_body.append(stmt)
 
         # expect and consume the endif token
-        if not self._match(TokenType.ENDIF):
-            raise Exception(f"Expected 'endif' to close if statement, got {self._current_token()}")
+        self._consume(TokenType.ENDIF, "Expected 'endif' to close if statement")
 
         return IfStatement(condition, then_body, elif_clauses, else_body)
+
+    # private method to parse a for loop
+    def _for_loop(self) -> ForLoop:
+        variable_token = self._consume(TokenType.IDENTIFIER, "Expected variable name after 'for'")
+        variable = variable_token.value  # extract the variable name
+
+        self._consume(TokenType.IN, "Expected 'in' after for variable")
+
+        iterable = self._expression()  # parse the iterable expression
+
+        self._consume(TokenType.COLON, "Expected ':' after for loop iterable")
+
+        while self._match(TokenType.NEWLINE):
+            pass
+
+        # parse the body
+        body = []
+        while not self._is_at_end() and not self._check(TokenType.ENDFOR):
+            if self._match(TokenType.NEWLINE):
+                continue
+
+            stmt = self._statement()
+            if stmt:
+                body.append(stmt)
+
+        # parse the ENDFOR token
+        self._consume(TokenType.ENDFOR, "Expected 'endfor' to close for loop")
+
+        return ForLoop(variable, iterable, body)  # return the for loop with its variable, iterable, and body
+
+    # private method to parse a while loop
+    def _while_loop(self) -> WhileLoop:
+        condition = self._expression()
+
+        self._consume(TokenType.COLON, "Expected ':' after while loop condition")
+
+        # skip newlines
+        while self._match(TokenType.NEWLINE):
+            pass
+
+        # parse the body
+        body = []
+        while not self._is_at_end() and not self._check(TokenType.ENDWHILE):
+            if self._match(TokenType.NEWLINE):
+                continue
+
+            stmt = self._statement()
+            if stmt:
+                body.append(stmt)
+
+        # parse the ENDWHILE token
+        self._consume(TokenType.ENDWHILE, "Expected 'endwhile' to close while loop")
+
+        return WhileLoop(condition, body)  # return the while loop with its condition and body
+
+    # private method to consume a token of a specific type, raising an error if it doesn't match
+    def _consume(self, token_type: TokenType, error_message: str) -> Token:
+        if self._check(token_type):
+            return self._advance()
+
+        raise Exception(
+            f"{term.bold_red}Error:{term.normal}{error_message}, got {self._current_token()}"
+        )  # raise an error if the token doesn't match
 
     # private method to parse a function definition
     def _function_def(self) -> FunctionDef:
         name = self._current_token().value  # extract the function name
-        self._advance()  # skip the function name token
-        self._advance()  # skip the (
+        self._consume(TokenType.IDENTIFIER, "Expected function name after 'def'")
+        self._consume(TokenType.LPAREN, "Expected '(' after function name")
 
         params = []
 
@@ -264,8 +346,8 @@ class Parser:
             if self._match(TokenType.COMMA):
                 continue
 
-        self._advance()  # skip the closing )
-        self._advance()  # skip the :
+        self._consume(TokenType.RPAREN, "Expected ')' after function parameters")
+        self._consume(TokenType.COLON, "Expected ':' after function parameters")
 
         while self._match(TokenType.NEWLINE):
             pass
@@ -298,9 +380,10 @@ class Parser:
 
     # private method to parse a print statement
     def _print_statement(self) -> PrintStatement:
-        self._advance()  # skip the opening (
+        self._consume(TokenType.LPAREN, "Expected '(' after print")
         value = self._expression()
-        self._advance()  # skip the closing )
+        self._consume(TokenType.RPAREN, "Expected ')' after print argument")
+
         return PrintStatement(value)  # return a print statement with the value to be printed
 
     # private method to parse an assignment or an expression
@@ -424,7 +507,7 @@ class Parser:
                     if not self._match(TokenType.COMMA):
                         break
 
-                self._advance()  # skip over the closing )
+                self._consume(TokenType.RPAREN, "Expected ')' after function arguments")
                 return FunctionCall(name, args)  # return a function call node with the name and arguments
 
             return Identifier(name)  # if it is just an identifier, return it
@@ -432,7 +515,7 @@ class Parser:
         # if the next token is a (, parse the expression inside parentheses
         if self._match(TokenType.LPAREN):
             expr = self._expression()
-            self._advance()  # skip over )
+            self._consume(TokenType.RPAREN, "Expected ')' after expression in parentheses")
             return expr
 
         raise Exception(f"Unexpected token: {self._current_token()}")  # raise an error if none of the above matches

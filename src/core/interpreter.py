@@ -1,4 +1,5 @@
 from typing import Any, Dict, List
+from blessed import Terminal
 
 from .parser import (
     Assignment,
@@ -6,6 +7,7 @@ from .parser import (
     BinaryOp,
     BooleanLiteral,
     ComparisonOp,
+    ForLoop,
     FunctionCall,
     FunctionDef,
     Identifier,
@@ -17,7 +19,10 @@ from .parser import (
     Program,
     Return,
     UnaryOp,
+    WhileLoop,
 )
+
+term = Terminal()
 
 
 # class to represent a Python function in the interpreter
@@ -26,6 +31,13 @@ class PyhtonFunction:
         self.name = name
         self.params = params
         self.body = body
+
+
+# class to represent a built-in function
+class BuiltinFunction:
+    def __init__(self, name: str, func):
+        self.name = name
+        self.func = func
 
 
 # class to represent a return exception
@@ -40,6 +52,30 @@ class Interpreter:
         self.globals: Dict[str, Any] = {}
         self.functions: Dict[str, PyhtonFunction] = {}
         self.locals_stack: List[Dict[str, Any]] = []
+
+        self._register_builtins()
+
+    def _register_builtins(self):
+        self.functions["range"] = BuiltinFunction("range", self._builtin_range)
+
+    def _builtin_range(self, args):
+        if len(args) == 0 or len(args) > 3:
+            raise Exception(f"{term.bold_red}Error{term.normal}range() expects 1 to 3 arguments")
+
+        # make sure all arguments are numbers
+        if not all(isinstance(arg, (int, float)) for arg in args):
+            raise Exception(f"{term.bold_red}Error{term.normal}range() expects numeric arguments")
+
+        # convert all arguments to integers
+        args = [int(arg) for arg in args]
+
+        # handle different number of arguments
+        if len(args) == 1:
+            return range(0, args[0])  # range(n) -> 0 to n-1
+        elif len(args) == 2:
+            return range(args[0], args[1])
+        else:
+            return range(args[0], args[1], args[2])
 
     # main entry point to interpret a program by executing its statements
     def interpret(self, program: Program):
@@ -75,9 +111,17 @@ class Interpreter:
         elif isinstance(node, BinaryOp):
             return self._execute_binary_op(node)
 
-        # if th enode is an if statement, execute it
+        # if the node is an if statement, execute it
         elif isinstance(node, IfStatement):
             return self._execute_if_statement(node)
+
+        # if the node is a for loop, execute it
+        elif isinstance(node, ForLoop):
+            return self._execute_for_loop(node)
+
+        # if the node is a while loop, execute it
+        elif isinstance(node, WhileLoop):
+            return self._execute_while_loop(node)
 
         # if the node is an identifier, retrieve its value
         elif isinstance(node, Identifier):
@@ -192,6 +236,43 @@ class Interpreter:
             for statement in node.else_body:
                 self._execute(statement)
 
+    # private method to execute a for loop
+    def _execute_for_loop(self, node: ForLoop) -> Any:
+        # evaluate the iterable expression
+        iterable = self._execute(node.iterable)
+
+        # check if it's a string or range
+        if not isinstance(iterable, (str, range)):
+            raise Exception(f"For loop iterable must be a string or range, got {type(iterable).__name__}")
+
+        # create a new local variable scope for the loop variable
+        self.locals_stack.append({})
+
+        try:
+            for item in iterable:
+                # set the loop variable to the current item
+                self.locals_stack[-1][node.variable] = item
+
+                # execute each statement in the loop body
+                for statement in node.body:
+                    self._execute(statement)
+        finally:
+            self.locals_stack.pop()  # pop the local variables off the stack after execution
+
+    # private method to execute a while loop
+    def _execute_while_loop(self, node: WhileLoop) -> Any:
+        # create a new local variable scope for the loop
+        self.locals_stack.append({})
+
+        try:
+            # continue looping while the condition is true
+            while self._execute(node.condition):
+                # execute each statement in the loop body
+                for statement in node.body:
+                    self._execute(statement)
+        finally:
+            self.locals_stack.pop()  # pop the local variables off the stack after execution
+
     # private method to execute a function call
     def _execute_function_call(self, node: FunctionCall) -> Any:
         # throw an error if the function is not defined
@@ -202,6 +283,10 @@ class Interpreter:
 
         # evaluate all its arguments
         args = [self._execute(arg) for arg in node.args]
+
+        # handle built-in functions
+        if isinstance(function, BuiltinFunction):
+            return function.func(args)
 
         # check parameter count is corerct
         if len(args) != len(function.params):

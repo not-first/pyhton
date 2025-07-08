@@ -44,6 +44,13 @@ class TokenType(Enum):
     OR = "OR"
     NOT = "NOT"
 
+    # loops
+    FOR = "FOR"
+    IN = "IN"
+    ENDFOR = "ENDFOR"
+    WHILE = "WHILE"
+    ENDWHILE = "ENDWHILE"
+
     # punctation
     LPAREN = "LPAREN"  # (
     RPAREN = "RPAREN"  # )
@@ -258,6 +265,16 @@ class Lexer:
             return Token(TokenType.ELSE, value, self.line, start_column)
         elif correct_word == "endif":
             return Token(TokenType.ENDIF, value, self.line, start_column)
+        elif correct_word == "for":
+            return Token(TokenType.FOR, value, self.line, start_column)
+        elif correct_word == "in":
+            return Token(TokenType.IN, value, self.line, start_column)
+        elif correct_word == "endfor":
+            return Token(TokenType.ENDFOR, value, self.line, start_column)
+        elif correct_word == "while":
+            return Token(TokenType.WHILE, value, self.line, start_column)
+        elif correct_word == "endwhile":
+            return Token(TokenType.ENDWHILE, value, self.line, start_column)
         elif correct_word == "and":
             return Token(TokenType.AND, value, self.line, start_column)
         elif correct_word == "or":
