@@ -51,7 +51,7 @@ Currently supported:
 - Variable assignments (numbers, strings and booleans) and arithmetic expressions
 - Print statements for output
 - Conditional statements with logical and comparison operators
-- Loop constructs (for and while loops)
+- Loop constructs (for loops on strings and ranges,  and while loops)
 - Comments (lines starting with `#`)
 
 **Note:** Nested conditionals and nested loops are not currently supported.
