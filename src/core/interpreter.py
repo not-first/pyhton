@@ -15,6 +15,7 @@ from .parser import (
 )
 
 
+# class to represent a Python function in the interpreter
 class PyhtonFunction:
     def __init__(self, name: str, params: List[str], body: List[ASTNode]):
         self.name = name
@@ -22,63 +23,78 @@ class PyhtonFunction:
         self.body = body
 
 
+# class to represent a return exception
 class ReturnException(Exception):
     def __init__(self, value: Any):
         self.value = value
 
 
+# the interpreter class that executes the AST
 class Interpreter:
     def __init__(self):
         self.globals: Dict[str, Any] = {}
         self.functions: Dict[str, PyhtonFunction] = {}
         self.locals_stack: List[Dict[str, Any]] = []
 
+    # main entry point to interpret a program by executing its statements
     def interpret(self, program: Program):
         for statement in program.statements:
             self._execute(statement)
 
+    # private method to execute a single AST node
     def _execute(self, node: ASTNode) -> Any:
+        # if the node is a number or string, simply return its value
+
         if isinstance(node, NumberLiteral):
             return node.value
 
         elif isinstance(node, StringLiteral):
             return node.value
 
+        # if the node is an identifier, retrieve its value
         elif isinstance(node, Identifier):
             return self._get_variable(node.name)
 
+        # if the node is a binary operation, execute it
         elif isinstance(node, BinaryOp):
             return self._execute_binary_op(node)
 
+        # if the node is an assignment, set the variable to the evaluated value
         elif isinstance(node, Assignment):
             value = self._execute(node.value)
             self._set_variable(node.name, value)
             return value
 
+        # if the node is a function definition, store it in the functions dictionary
         elif isinstance(node, FunctionDef):
             self.functions[node.name] = PyhtonFunction(node.name, node.params, node.body)
 
+        # if the node is a function call, execute it
         elif isinstance(node, FunctionCall):
             return self._execute_function_call(node)
 
+        # if the node is a print statement, evaluate the value and print it
         elif isinstance(node, PrintStatement):
             value = self._execute(node.value)
             print(value)
 
+        # if the node is a return statement, raise a ReturnException
         elif isinstance(node, Return):
             value = None
             if node.value:
                 value = self._execute(node.value)
 
-            raise ReturnException(value)
+            raise ReturnException(value)  # exit the current function and return the value
 
         else:
-            raise Exception(f"Unknown AST node type: {type(node)}")
+            raise Exception(f"Unknown AST node type: {type(node)}")  # raise an error if the node type is not recognized
 
+    # private method to execute a binary operation
     def _execute_binary_op(self, node: BinaryOp) -> Any:
-        left = self._execute(node.left)
-        right = self._execute(node.right)
+        left = self._execute(node.left)  # evaluate the left side of the operator
+        right = self._execute(node.right)  # evaluate the right side of the operator
 
+        # peform the operation based on the operator type
         if node.operator == "+":
             return left + right
         elif node.operator == "-":
@@ -90,45 +106,56 @@ class Interpreter:
         else:
             raise Exception(f"Unknown operator: {node.operator}")
 
+    # private method to execute a function call
     def _execute_function_call(self, node: FunctionCall) -> Any:
+        # throw an error if the function is not defined
         if node.name not in self.functions:
             raise Exception(f"Unknown function: {node.name}")
 
-        function = self.functions[node.name]
+        function = self.functions[node.name]  # retrieve the function definition from the functions dictionary
 
-        # evaluate arguments
+        # evaluate all its arguments
         args = [self._execute(arg) for arg in node.args]
 
-        # check parameter count
+        # check parameter count is corerct
         if len(args) != len(function.params):
             raise Exception(f"Function {node.name} expects {len(function.params)} arguments, got {len(args)}")
 
+        # create a new local variable scope for the function call
         local_vars = {}
         for param, arg in zip(function.params, args):
             local_vars[param] = arg
 
-        self.locals_stack.append(local_vars)
+        self.locals_stack.append(local_vars)  # push the local variables onto the stack
 
         try:
+            # execute each statement in the function body
             for statement in function.body:
                 self._execute(statement)
             return None
+
+        # if a return statement is encountered, catch the ReturnException and return its value
         except ReturnException as ret:
             return ret.value
-        finally:
-            self.locals_stack.pop()
 
+        finally:
+            self.locals_stack.pop()  # pop the local variables off the stack after execution
+
+    # private method to get a variable's value from the local or global scope
     def _get_variable(self, name: str) -> Any:
+        # if the variable is in the local scope, return it
         if self.locals_stack:
             local_vars = self.locals_stack[-1]
             if name in local_vars:
                 return local_vars[name]
 
+        # if the variable is not in the local scope, check the global scope
         if name in self.globals:
             return self.globals[name]
 
-        raise Exception(f"Unknown variable: {name}")
+        raise Exception(f"Unknown variable: {name}")  # raise an error if the variable is not found in either scope
 
+    # private method to set a variable's value in the local or global scope
     def _set_variable(self, name: str, value: Any):
         # set in local scope if in function, otherwise use global scope
         if self.locals_stack:

@@ -5,6 +5,7 @@ class TypoEngine:
     def __init__(self):
         self.valid_words = ALL_WORDS
 
+    # check if if a word is a valid typo of another word
     def is_valid_typo(self, typo_word: str, original_word: str) -> bool:
         if typo_word == original_word:
             return False
@@ -15,12 +16,13 @@ class TypoEngine:
             or self._is_swapped_letters(typo_word, original_word)
         )
 
+    # check if a word is a doubled letter typo
     def _is_doubled_letter(self, typo: str, original: str) -> bool:
         # verify that the typo is 1 character longer
         if len(typo) != len(original) + 1:
             return False
 
-        # double each letter in the original word and check against typo
+        # double each letter in the original words and check against the typo
         for i in range(len(original)):
             before_double = original[:i]
             char_to_double = original[i]
@@ -33,12 +35,13 @@ class TypoEngine:
 
         return False
 
+    # check if a word is a missing letter typo
     def _is_missing_letter(self, typo: str, original: str) -> bool:
         # verify that the typo is 1 character shorter
         if len(typo) != len(original) - 1:
             return False
 
-        # remove each letter in the original word and check against typo
+        # remove each letter in the original word and check against the typo
         for i in range(len(original)):
             before_missing = original[:i]
             after_missing = original[i + 1 :]
@@ -50,13 +53,14 @@ class TypoEngine:
 
         return False
 
+    # check if a word is a swapped letters typo
     def _is_swapped_letters(self, typo: str, original: str) -> bool:
         # verify that the typo is the same length
         if len(typo) != len(original):
             return False
 
-        # swap each pair of adjacent letters and check against typo.
-        for i in range(len(original) - 1):  # the last letter can't be swapped with anything
+        # swap each pair of adjacent letters and check against the typo.
+        for i in range(len(original) - 1):  # len() - 1 as the last letter can't be swapped with anything
             before_swap = original[:i]
             first_char = original[i]
             second_char = original[i + 1]
@@ -69,11 +73,13 @@ class TypoEngine:
 
         return False
 
+    # find the original word from a typo
     def find_original_word(self, typo_word) -> str | None:
         for word in self.valid_words:
             if self.is_valid_typo(typo_word, word):
                 return word
         return None
 
+    # check if a word is a valid word in the language
     def is_correct_word(self, word: str) -> bool:
         return word in self.valid_words
