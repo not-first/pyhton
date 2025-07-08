@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A python based esolang where every word must be a typo"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["blessed"]
 
 [build-system]
 requires = ["setuptools >= 77.0.3"]
