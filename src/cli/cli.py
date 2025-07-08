@@ -1,8 +1,8 @@
 import argparse
 import sys
 
-from .cli.file_runner import run_pyhton_file
-from .cli.interactive import run_interactive_mode
+from .file_runner import run_pyhton_file
+from .interactive import run_interactive_mode
 
 
 def main():
