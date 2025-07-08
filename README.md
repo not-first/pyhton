@@ -35,21 +35,30 @@ Currently supported:
 - Function definitions with parameters
 - Variable assignments
 - Arithmetic expressions (`+`, `-`, `*`, `/`)
-- Print statements
+- Print statements for output
 - Return statements
+- String literals with double quotes
+- Comments (lines starting with `#`)
 - Local and global variable scopes
+- Interactive REPL mode
 
 Supported keywords (must be typo'd):
 - `def` → `deff`, `de`, `edf`, etc.
 - `return` → `retrn`, `retrun`, `retur`, etc.
 - `print` → `prrint`, `pint`, `pritn`, etc.
 
+Supported features:
+- **String literals**: `"Hello, World!"` (double quotes only)
+- **Comments**: `# This is a comment`
+- **Arithmetic**: `+`, `-`, `*`, `/` with proper precedence
+- **Function calls**: `greet("Alice")`
+
 ## Try It Yourself
 
 ### Installation
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/not-first/pyhton.git
 cd pyhton
 uv install -e .
 ```
@@ -65,12 +74,66 @@ deff greet(name):
     prrint(message)
     retrn message
 
+# Call the function
 result = greet("World")
+prrint("Result: " + result)
 ```
 
-Run it:
+**Run a file:**
 ```bash
-uv run pyhton example.yp
+pyhton example.yp
+```
+
+**Run with debug output:**
+```bash
+pyhton --debug example.yp
+```
+
+**Start interactive mode:**
+```bash
+pyhton --interactive
+# or just
+pyhton
+```
+
+**Run directly with Python:**
+```bash
+python main.py example.yp
+```
+
+### CLI Features
+
+The Pyhton interpreter includes several CLI options:
+
+**Debug Mode (`--debug` or `-d`)**
+- Shows detailed execution steps
+- Displays tokens, AST, and execution trace
+
+**Interactive Mode (`--interactive` or `-i`)**
+- REPL (Read-Eval-Print Loop) for live coding
+- Persistent state across commands
+- Built-in help system with `help()`
+- Exit with `exit()` or Ctrl+C
+
+**Examples:**
+```bash
+# Debug a file
+pyhton --debug examples/hello_world.yp
+
+# Start interactive session
+pyhton -i
+
+# Interactive with debug
+pyhton --interactive --debug
+```
+
+**Interactive Session Example:**
+```
+pyhton[1]: a = 5
+pyhton[2]: b = 3
+pyhton[3]: prrint(a + b)
+8.0
+pyhton[4]: exit()
 ```
 
 ### Execution Pipeline
@@ -98,13 +161,15 @@ Output: Function stored in memory, ready to be called
 ```
 The interpreter walks the AST and executes the program, maintaining variable scopes and function definitions.
 
-**Example trace for `prrint(5 + 3)`:**
-1. Lexer: `prrint` → PRINT token, `5` → NUMBER, `+` → PLUS, `3` → NUMBER
-2. Parser: Creates `PrintStatement(value=BinaryOp(left=5, op='+', right=3))`
-3. Interpreter: Evaluates `5 + 3 = 8`, then prints `8`
+**Example trace for `prrint("Hello: " + (5 + 3))`:**
+1. Lexer: `prrint` → PRINT, `"Hello: "` → STRING, `+` → PLUS, `(` → LPAREN, `5` → NUMBER, `+` → PLUS, `3` → NUMBER, `)` → RPAREN
+2. Parser: Creates `PrintStatement(value=BinaryOp(left=StringLiteral("Hello: "), op='+', right=BinaryOp(left=5, op='+', right=3)))`
+3. Interpreter: Evaluates `5 + 3 = 8`, then `"Hello: " + "8" = "Hello: 8"`, then prints `Hello: 8`
 
 # Todo
-- [ ] Add more tests
-- [ ] Make normal errors in the interpreter look better, like CLI interactive errors
+- [ ] Add more language features:
+  - [ ] Conditional statements (`iff`, `ellse`)
+  - [ ] Loops (`ffor`, `whille`)
+  - [ ] Lists and indexing
 - [ ] Add CLI options for:
   - [ ] Running only certain steps (lexer, parser, interpreter)
