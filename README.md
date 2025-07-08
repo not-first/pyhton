@@ -87,7 +87,7 @@ pyhton --interactive
 pyhton
 ```
 
-**Run directly with Python (no `uv` required):**
+**Run directly with Python (no `uv`/`pip` required):**
 ```bash
 python main.py example.yp
 ```
@@ -162,6 +162,5 @@ The interpreter walks the AST and executes the program.
 - [ ] Add more language features:
   - [ ] Conditional statements (`fi`, `eliff`, `ese`)
   - [ ] Loops (`ffor`, `wihle`)
-  - [ ] Lists and indexing
 - [ ] Add CLI options for:
   - [ ] Running only certain steps (lexer, parser, interpreter)

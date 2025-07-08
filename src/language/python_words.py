@@ -3,6 +3,14 @@
 KEYWORDS = {
     "def",  # function definition
     "return",  # return statement
+    "if",  # if statement
+    "elif",
+    "else",
+    "and",  # logical operators
+    "or",
+    "not",
+    "True",  # boolean true
+    "False",  # boolean false
 }
 
 BUILTINS = {

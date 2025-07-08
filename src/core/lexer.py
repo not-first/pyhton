@@ -10,6 +10,7 @@ class TokenType(Enum):
     NUMBER = "NUMBER"
     IDENTIFIER = "IDENTIFIER"
     STRING = "STRING"
+    BOOLEAN = "BOOLEAN"
 
     # keywords
     DEF = "DEF"
@@ -24,6 +25,23 @@ class TokenType(Enum):
     MULTIPLY = "MULTIPLY"
     DIVIDE = "DIVIDE"
     ASSIGN = "ASSIGN"
+
+    EQUALS = "EQUALS"  # ==
+    NOT_EQUALS = "NOT_EQUALS"  # !=
+    LESS_THAN = "LESS_THAN"  # <
+    GREATER_THAN = "GREATER_THAN"  # >
+    LESS_EQUAL = "LESS_EQUAL"  # <=
+    GREATER_EQUAL = "GREATER_EQUAL"  # >=
+
+    # conditionals
+    IF = "IF"
+    ELIF = "ELIF"
+    ELSE = "ELSE"
+
+    # logical operators
+    AND = "AND"
+    OR = "OR"
+    NOT = "NOT"
 
     # punctation
     LPAREN = "LPAREN"  # (
@@ -42,6 +60,7 @@ class Token:
     value: str
     line: int
     column: int
+    original_word: Optional[str] = None
 
 
 # the lexer tokenizes the source code into a list of tokens
@@ -78,6 +97,40 @@ class Lexer:
         if current_char == "#":
             self._skip_comment()
             return None
+
+        # COMMENT THESE
+        if current_char == "=" and self.pos + 1 < len(self.code) and self.code[self.pos + 1] == "=":
+            token = Token(TokenType.EQUALS, "==", self.line, self.column)
+            self._advance()
+            self._advance()
+            return token
+
+        if current_char == "!" and self.pos + 1 < len(self.code) and self.code[self.pos + 1] == "=":
+            token = Token(TokenType.NOT_EQUALS, "!=", self.line, self.column)
+            self._advance()
+            self._advance()
+            return token
+
+        if current_char == "<":
+            if self.pos + 1 < len(self.code) and self.code[self.pos + 1] == "=":
+                token = Token(TokenType.LESS_EQUAL, "<=", self.line, self.column)
+                self._advance()
+                self._advance()
+                return token
+            else:
+                token = Token(TokenType.LESS_THAN, "<", self.line, self.column)
+                self._advance()
+                return token
+        if current_char == ">":
+            if self.pos + 1 < len(self.code) and self.code[self.pos + 1] == "=":
+                token = Token(TokenType.GREATER_EQUAL, ">=", self.line, self.column)
+                self._advance()
+                self._advance()
+                return token
+            else:
+                token = Token(TokenType.GREATER_THAN, ">", self.line, self.column)
+                self._advance()
+                return token
 
         # handle numbers
         if current_char.isdigit():
@@ -196,6 +249,22 @@ class Lexer:
             return Token(TokenType.RETURN, value, self.line, start_column)
         elif correct_word == "print":
             return Token(TokenType.PRINT, value, self.line, start_column)
+        elif correct_word == "if":
+            return Token(TokenType.IF, value, self.line, start_column)
+        elif correct_word == "elif":
+            return Token(TokenType.ELIF, value, self.line, start_column)
+        elif correct_word == "else":
+            return Token(TokenType.ELSE, value, self.line, start_column)
+        elif correct_word == "and":
+            return Token(TokenType.AND, value, self.line, start_column)
+        elif correct_word == "or":
+            return Token(TokenType.OR, value, self.line, start_column)
+        elif correct_word == "not":
+            return Token(TokenType.NOT, value, self.line, start_column)
+        elif correct_word == "True":
+            return Token(TokenType.BOOLEAN, value, self.line, start_column, correct_word)
+        elif correct_word == "False":
+            return Token(TokenType.BOOLEAN, value, self.line, start_column, correct_word)
         else:
             return Token(
                 TokenType.IDENTIFIER, value, self.line, start_column

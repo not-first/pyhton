@@ -22,6 +22,11 @@ class StringLiteral(ASTNode):
 
 
 @dataclass
+class BooleanLiteral(ASTNode):
+    value: bool
+
+
+@dataclass
 class Identifier(ASTNode):
     name: str
 
@@ -31,6 +36,34 @@ class BinaryOp(ASTNode):
     left: ASTNode
     operator: str
     right: ASTNode
+
+
+@dataclass
+class ComparisonOp(ASTNode):
+    left: ASTNode
+    operator: str
+    right: ASTNode
+
+
+@dataclass
+class LogicalOp(ASTNode):
+    left: ASTNode
+    operator: str
+    right: ASTNode
+
+
+@dataclass
+class UnaryOp(ASTNode):
+    operator: str
+    operand: ASTNode
+
+
+@dataclass
+class IfStatement(ASTNode):
+    condition: ASTNode
+    then_body: List[ASTNode]
+    elif_clauses: List[tuple[ASTNode, List[ASTNode]]]  # (condition, body) pairs
+    else_body: Optional[List[ASTNode]]
 
 
 @dataclass
@@ -131,7 +164,9 @@ class Parser:
 
     # private method to parse a statement
     def _statement(self) -> Optional[ASTNode]:
-        if self._match(TokenType.DEF):
+        if self._match(TokenType.IF):
+            return self._if_statement()
+        elif self._match(TokenType.DEF):
             return self._function_def()
         elif self._match(TokenType.RETURN):
             return self._return_statement()
@@ -139,6 +174,73 @@ class Parser:
             return self._print_statement()
         else:
             return self._assignment_or_expression()
+
+    # COMMENT THIS
+    def _if_statement(self) -> IfStatement:
+        condition = self._expression()
+        self._advance()  # skip the :
+
+        # skip newlines
+        while self._match(TokenType.NEWLINE):
+            pass
+
+        # parse the body of 'then' body
+        then_body = []
+        while (
+            not self._is_at_end()
+            and not self._check(TokenType.ELIF)
+            and not self._check(TokenType.ELSE)
+            and not self._check(TokenType.DEF)
+        ):
+            if self._match(TokenType.NEWLINE):
+                continue
+            stmt = self._statement()
+            if stmt:
+                then_body.append(stmt)
+
+        # parse elif clauses
+        elif_clauses = []
+        while self._match(TokenType.ELIF):
+            elif_condition = self._expression()
+            self._advance()  # skip the :
+
+            # skip newlines
+            while self._match(TokenType.NEWLINE):
+                pass
+
+            elif_body = []
+            while (
+                not self._is_at_end()
+                and not self._check(TokenType.ELIF)
+                and not self._check(TokenType.ELSE)
+                and not self._check(TokenType.DEF)
+            ):
+                if self._match(TokenType.NEWLINE):
+                    continue
+                stmt = self._statement()
+                if stmt:
+                    elif_body.append(stmt)
+
+            elif_clauses.append((elif_condition, elif_body))
+
+        # parse else clause
+        else_body = None
+        if self._match(TokenType.ELSE):
+            self._advance()  # skip the :
+
+            # skip newlines
+            while self._match(TokenType.NEWLINE):
+                pass
+
+            else_body = []
+            while not self._is_at_end() and not self._check(TokenType.DEF):
+                if self._match(TokenType.NEWLINE):
+                    continue
+                stmt = self._statement()
+                if stmt:
+                    else_body.append(stmt)
+
+        return IfStatement(condition, then_body, elif_clauses, else_body)
 
     # private method to parse a function definition
     def _function_def(self) -> FunctionDef:
@@ -208,10 +310,55 @@ class Parser:
 
     # private method to parse an expression
     def _expression(self) -> ASTNode:
-        return self._addition()  # start with addition, which is the lowest precedence operation
+        return self._logical_or()  # start with logical OR, which has the lowest precedence
+
+    # COMMENT THIS
+
+    # private method to handle local OR expressions
+    def _logical_or(self) -> ASTNode:
+        expr = self._logical_and()
+
+        while self._match(TokenType.OR):
+            operator = self._previous().value
+            right = self._logical_and()
+            expr = LogicalOp(expr, operator, right)
+
+        return expr
+
+    # private method to handle logical AND expressions
+    def _logical_and(self) -> ASTNode:
+        expr = self._equality()
+
+        while self._match(TokenType.AND):
+            operator = self._previous().value
+            right = self._equality()
+            expr = LogicalOp(expr, operator, right)
+
+        return expr
+
+    # private method to handle equality comparisons
+    def _equality(self) -> ASTNode:
+        expr = self._comparison()
+
+        while self._match(TokenType.EQUALS, TokenType.NOT_EQUALS):
+            operator = self._previous().value
+            right = self._comparison()
+            expr = ComparisonOp(expr, operator, right)
+
+        return expr
+
+    # private method to handle numerical comparisons
+    def _comparison(self) -> ASTNode:
+        expr = self._addition()
+
+        while self._match(TokenType.GREATER_THAN, TokenType.GREATER_EQUAL, TokenType.LESS_THAN, TokenType.LESS_EQUAL):
+            operator = self._previous().value
+            right = self._addition()
+            expr = ComparisonOp(expr, operator, right)
+
+        return expr
 
     # private methods to handle different levels of precedence in expressions
-
     def _addition(self) -> ASTNode:
         expr = self._multiplication()  # start with multiplication, which has higher precedence
 
@@ -241,6 +388,16 @@ class Parser:
 
         if self._match(TokenType.STRING):
             return StringLiteral(self._previous().value)
+
+        if self._match(TokenType.BOOLEAN):
+            token = self._previous()
+            is_true = token.original_word == "True"
+            return BooleanLiteral(is_true)
+
+        if self._match(TokenType.NOT):
+            operator = self._previous().value
+            operand = self._primary()
+            return UnaryOp(operator, operand)
 
         if self._match(TokenType.IDENTIFIER):
             name = self._previous().value
