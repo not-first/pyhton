@@ -3,13 +3,13 @@
 A Turing-complete, Python-inspired esolang where all keywords must be purposefully spelt incorrectly.
 
 ## Language Overview
-
-Pyhton is a Python-inspired language that requires all keywords and builtins to be realistic typos of their correct counterparts. The language is Turing complete, supporting recursive functions, nested control structures, and arbitrary computation. It supports:
+Pyhton is a Python-inspired language that requires all keywords and builtins to be realistic typos of their correct counterparts. The language is Turing complete, supporting recursive functions, nested control structures, and algorithmic computation. It supports:
 
 - **Function definitions** with parameters (`def`, `return`)
 - **Variable assignments** and arithmetic (`+`, `-`, `*`, `/`)
 - **Print statements** for output (`print`)
 - **Conditional statements** (`if`, `elif`, `else`)
+- **Loop Structures** (`for`, `while`)
 - **Boolean logic** (`and`, `or`, `not`)
 - **Comparison operators** (`==`, `!=`, `<`, `>`, `<=`, `>=`)
 - **Typo tolerance** - any valid typo of a keyword works
@@ -52,7 +52,7 @@ Currently supported:
 - Print statements for output
 - String concatenation with automatic type conversion (numbers and booleans convert to strings)
 - Conditional statements with logical and comparison operators
-- Loop constructs (for loops on strings and ranges,  and while loops)
+- Loop constructs (for loops on strings and ranges, while loops)
 - Comments (lines starting with `#`)
 - Nested conditionals and loops (supported with explicit end keywords)
 
