@@ -129,6 +129,10 @@ The Pyhton interpreter includes several CLI options:
 - Built-in help system with `help()`
 - Exit with `exit()` or Ctrl+C
 
+**Execution Pipeline Options**
+- `--lexer-only` - Run only the lexer and show the generated tokens
+- `--parser-only` - Run the lexer and parser, show the AST but don't execute
+
 **Examples:**
 ```bash
 # Debug a file
@@ -139,6 +143,15 @@ pyhton -i
 
 # Interactive with debug
 pyhton --interactive --debug
+
+# Run only the lexer (tokenize the code)
+pyhton --lexer-only examples/hello_world.yp
+
+# Run lexer and parser but don't execute
+pyhton --parser-only examples/hello_world.yp
+
+# Combine with debug for more detail
+pyhton --lexer-only --debug examples/hello_world.yp
 ```
 
 **Interactive Session Example:**
@@ -183,7 +196,5 @@ The interpreter walks the AST and executes the program.
 
 # Todo
 - [ ] Add more language features:
-  - [ ] Conditional statements (`fi`, `eliff`, `ese`)
   - [ ] Loops (`ffor`, `wihle`)
-- [ ] Add CLI options for:
-  - [ ] Running only certain steps (lexer, parser, interpreter)
+
