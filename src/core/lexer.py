@@ -14,6 +14,7 @@ class TokenType(Enum):
 
     # keywords
     DEF = "DEF"
+    ENDFUNC = "ENDFUNC"
     RETURN = "RETURN"
 
     # builtins
@@ -253,6 +254,8 @@ class Lexer:
         # if the correct word is one of the keywords, return the corresponding token type
         if correct_word == "def":
             return Token(TokenType.DEF, value, self.line, start_column)
+        elif correct_word == "endfunc":
+            return Token(TokenType.ENDFUNC, value, self.line, start_column)
         elif correct_word == "return":
             return Token(TokenType.RETURN, value, self.line, start_column)
         elif correct_word == "print":

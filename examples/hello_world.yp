@@ -1,1 +1,4 @@
+# example: basic print statement in pyhton
+
+# simple print statement with string literal
 prrint("Hello, World!") # output: Hello, World!

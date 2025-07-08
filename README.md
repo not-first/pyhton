@@ -24,6 +24,7 @@ deff check_age(age):
         prrint("You are a minor")
         retrn Flase
     enidf
+endfnc
 
 age = 25
 result = check_age(age)
@@ -53,8 +54,11 @@ Currently supported:
 - Loop constructs (for and while loops)
 - Comments (lines starting with `#`)
 
+**Note:** Nested conditionals and nested loops are not currently supported.
+
 Supported keywords (must be typo'd):
 - `def` → `deff`, `de`, `edf`, etc.
+- `endfunc` → `endfnc`, `endfucn`, `endunc`, etc.
 - `return` → `retrn`, `retrun`, `retur`, etc.
 - `print` → `prrint`, `pint`, `pritn`, etc.
 - `if` → `fi`, `iff`, `f`, etc.
@@ -92,7 +96,7 @@ df greet(name):
     message = "Hello, " + name
     prin(message)
     erturn message
-enddif
+endfnc
 
 # Call the function
 result = greet("World")
@@ -200,50 +204,16 @@ The interpreter walks the AST and executes the program.
 2. Parser: Creates `PrintStatement(value=BinaryOp(left=StringLiteral("Hello: "), op='+', right=BinaryOp(left=5, op='+', right=3)))`
 3. Interpreter: Evaluates `5 + 3 = 8`, then `"Hello: " + "8" = "Hello: 8"`, then prints `Hello: 8`
 
-### Loop Examples
-For loops can be used to loop through either a range, or a string.
+## Examples
 
-**For loops with range:**
-```python
-# Loop from 0 to 4
-ffor i in range(5):
-    prrint(i)  # Prints 0, 1, 2, 3, 4
-endfooor
+For comprehensive examples of Pyhton code including loops, conditionals, functions, and more, check out the files in the `examples/` directory:
 
-# Loop from 2 to 6
-ffor i in range(2, 7):
-    prrint(i)  # Prints 2, 3, 4, 5, 6
-endfr
-
-# Loop from 1 to 9 with step 2
-fr i in range(1, 10, 2):
-    prrint(i)  # Prints 1, 3, 5, 7, 9
-endfor
-```
-
-**For loops with strings:**
-```python
-# Loop through characters in a string
-mesage = "Hello"
-ffor c in mesage:
-    prrint(c)  # Prints H, e, l, l, o
-endfor
-```
-
-**While loops:**
-```python
-# Count from 1 to 5
-couunter = 1
-whille couunter <= 5:
-    prrint(couunter)
-    couunter = couunter + 1
-endwihle
-```
+- `hello_world.yp` - Basic print statements
+- `arithmetic.yp` - Mathematical operations and expressions
+- `functions.yp` - Function definitions and function calls
+- `conditions.yp` - Conditional statements with if/elif/else
+- `loops.yp` - For loops, while loops, and the range() function
 
 # Todo
-- [ ] Apply _consume syntax checking to all old functions
-- [x] Add more language features:
-  - [x] Loops (`ffor`, `wihle`)
-  - [x] Add support for nested loops/conditionals
 - [ ] Add more built-in functions and data manipulation capabilities
 

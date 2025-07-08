@@ -1,15 +1,21 @@
+# example: arithmetic operations and expressions in pyhton
+
+# define variables for arithmetic operations
 a = 10
 b = 3
 
+# basic arithmetic operations
 sum_result = a + b
 diff_result = a - b
 mult_result = a * b
 div_result = a / b
 
+# print results of basic operations
 priint(sum_result) # output: 13.0
 rint(diff_result) # output: 7.0
 pritn(mult_result) # output: 30.0
 pint(div_result) # output: 3.3333333333333335
 
+# more complex expression with parentheses
 complex_expr = (a + b) * 2 - div_result
 rpint(complex_expr) # output: 22.666666666666668

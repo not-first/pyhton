@@ -245,33 +245,33 @@ class Interpreter:
         if not isinstance(iterable, (str, range)):
             raise Exception(f"For loop iterable must be a string or range, got {type(iterable).__name__}")
 
-        # create a new local variable scope for the loop variable
-        self.locals_stack.append({})
-
         try:
             for item in iterable:
-                # set the loop variable to the current item
-                self.locals_stack[-1][node.variable] = item
+                # set the loop variable in the current scope (don't create a new scope)
+                if self.locals_stack:
+                    self.locals_stack[-1][node.variable] = item
+                else:
+                    self.globals[node.variable] = item
 
                 # execute each statement in the loop body
                 for statement in node.body:
                     self._execute(statement)
         finally:
-            self.locals_stack.pop()  # pop the local variables off the stack after execution
+            # clean up the loop variable from the current scope
+            if self.locals_stack:
+                if node.variable in self.locals_stack[-1]:
+                    del self.locals_stack[-1][node.variable]
+            else:
+                if node.variable in self.globals:
+                    del self.globals[node.variable]
 
     # private method to execute a while loop
     def _execute_while_loop(self, node: WhileLoop) -> Any:
-        # create a new local variable scope for the loop
-        self.locals_stack.append({})
-
-        try:
-            # continue looping while the condition is true
-            while self._execute(node.condition):
-                # execute each statement in the loop body
-                for statement in node.body:
-                    self._execute(statement)
-        finally:
-            self.locals_stack.pop()  # pop the local variables off the stack after execution
+        # continue looping while the condition is true
+        while self._execute(node.condition):
+            # execute each statement in the loop body
+            for statement in node.body:
+                self._execute(statement)
 
     # private method to execute a function call
     def _execute_function_call(self, node: FunctionCall) -> Any:

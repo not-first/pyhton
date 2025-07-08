@@ -75,6 +75,10 @@ class TypoEngine:
 
     # find the original word from a typo
     def find_original_word(self, typo_word) -> str | None:
+        # only consider typos that are longer than 1 character
+        if len(typo_word) <= 1:
+            return None
+
         for word in self.valid_words:
             if self.is_valid_typo(typo_word, word):
                 return word
@@ -82,4 +86,7 @@ class TypoEngine:
 
     # check if a word is a valid word in the language
     def is_correct_word(self, word: str) -> bool:
+        # only flag correctly spelled words that are longer than 1 character
+        if len(word) <= 1:
+            return False
         return word in self.valid_words

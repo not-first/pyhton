@@ -2,6 +2,7 @@
 
 KEYWORDS = {
     "def",  # function definition
+    "endfunc",  # end function definition
     "return",  # return statement
     "if",  # if statement
     "elif",

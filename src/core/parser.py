@@ -354,8 +354,8 @@ class Parser:
 
         body = []
 
-        # collect statements until the next function definition or end of file
-        while not self._is_at_end() and not self._check(TokenType.DEF):
+        # collect statements until endfunc is found
+        while not self._is_at_end() and not self._check(TokenType.ENDFUNC):
             # skip newlines
             if self._match(TokenType.NEWLINE):
                 continue
@@ -363,6 +363,9 @@ class Parser:
             stmt = self._statement()
             if stmt:
                 body.append(stmt)  # append the statement to the body
+
+        # consume the endfunc token
+        self._consume(TokenType.ENDFUNC, "Expected 'endfunc' to close function definition")
 
         return FunctionDef(
             name, params, body

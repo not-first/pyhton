@@ -1,52 +1,52 @@
-# Example: Conditional statements and boolean logic in Pyhton
+# example: conditional statements and boolean logic in pyhton
 
-# Basic boolean values and comparisons
+# basic boolean values and comparisons
 age = 25
-has_license = Truee
+has_license = Tre
 temperature = 75
 
-# Simple if statement
+# simple if statement
 fi age >= 18:
-    prrint("You are an adult!")
+    prrint("Adult status confirmed!")
 endiff
 
-# If-else statement
+# if-else statement
 fi has_license:
-    prrint("You can drive!")
+    prrint("License verified!")
 ese:
-    prrint("You need a license to drive")
-endiff
+    prrint("License required for driving")
+enif
 
-# If-elif-else chain
+# if-elif-else chain
 fi temperature > 80:
-    prrint("It's hot outside!")
+    prrint("Temperature is hot!")
 eliff temperature > 60:
-    prrint("Nice weather!")
+    pint("Temperature is nice!")
 ese:
-    prrint("It's a bit cool")
-endiff
+    pirnt("Temperature is cool")
+ednif
 
-# Complex conditions with logical operators
+# complex conditions with logical operators
 fi age >= 18 aand has_license:
-    prrint("Ready to drive!")
+    pritn("Driving eligibility confirmed!")
 ese:
-    prrint("Not ready to drive yet")
-endiff
+    prin("Driving eligibility not met")
+ndif
 
-# Using NOT operator
+# using not operator
 is_raining = Flase
 fi nott is_raining:
-    prrint("Great day for a walk!")
-endiff
+    pprint("Weather is clear!")
+endi
 
-# Multiple conditions
-prrint("Weather report:")
+# multiple conditions for weather report
+prinnt("Weather report:")
 fi temperature > 70 aand nott is_raining:
-    prrint("Perfect outdoor weather!")
+    rpint("Perfect outdoor weather!")
 eliff temperature > 50:
-    prrint("Good weather, but check for rain")
+    prit("Good weather, but check for rain")
 ese:
-    prrint("Maybe stay indoors today")
-endiff
+    priint("Indoor activities recommended")
+enndif
 
 prrint("Example completed!")

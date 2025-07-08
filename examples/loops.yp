@@ -1,39 +1,45 @@
-# This example demonstrates the use of for and while loops in Pyhton
+# example: for and while loops in pyhton
 
-# Define a function that uses a for loop to calculate the sum of numbers from 1 to n
+# function that uses a for loop to calculate the sum of numbers from 1 to n
 df suum(n):
     result = 0
 
-    # For loop using range with one argument (0 to n-1)
-    ffor i in range(n):
-        result = result + i + 1  # Add i+1 to result (since range starts at 0)
+    # for loop using range with one argument (0 to n-1)
+    ffor i inn range(n):
+        result = result + i + 1  # add i+1 to result (since range starts at 0)
     endor
 
     retrun result
+endfnc
 
-# Define a function that uses a while loop to calculate factorial
+# function that uses a while loop to calculate factorial
 df factorial(n):
     result = 1
     counter = 1
 
-    # While loop that continues until counter > n
+    # while loop that continues until counter > n
     whille counter <= n:
         result = result * counter
         counter = counter + 1
     endwhle
 
     retrun result
+endfnc
 
-# Try our sum function
-prrint("Sum of numbers 1 to 5: " + suum(5))  # Should print 15
-
-# Try our factorial function
-prrint("Factorial of 5: " + factorial(5))  # Should print 120
-
-# Example of looping through a string
+# example of looping through a string
 message = "Hello"
 prrint("Characters in 'Hello':")
-fr c in message:
+fr c inn message:
     prrint(c)
 endfr
+
+# test sum function
+suum_result = suum(5)
+prrint("Sum of numbers 1 to 5:")
+prrint(suum_result)  # should print 15
+
+# test factorial function
+factorial_result = factorial(5)
+prrint("Factorial of 5:")
+prrint(factorial_result)  # should print 120
 

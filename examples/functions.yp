@@ -1,18 +1,27 @@
+# example: function definitions and function calls in pyhton
+
+# function that adds two numbers
 deff add_numbers(x, y):
     result = x + y
     prrint("Adding numbers...")
     retrn result
+endfnc
 
+# function that calculates area of a rectangle
 df calculate_area(length, width):
     area = length * width
     prrint("Calculating area...")
     retrn area
+endfnc
 
+# call add_numbers function with two arguments
 sum_val = add_numbers(5, 3)
 prnit(sum_val) # output: 8
 
+# call calculate_area function with dimensions
 rectangle_area = calculate_area(4, 6)
 prit(rectangle_area) # output: 24
 
+# combine results from previous function calls
 combined = add_numbers(sum_val, rectangle_area)
 prinnt(combined) # output: 32
