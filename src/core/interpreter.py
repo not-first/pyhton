@@ -164,7 +164,11 @@ class Interpreter:
 
         # peform the operation based on the operator type
         if node.operator == "+":
-            return left + right
+            # if either operand is a string, convert both to strings for concatenation
+            if isinstance(left, str) or isinstance(right, str):
+                return str(left) + str(right)
+            else:
+                return left + right
         elif node.operator == "-":
             return left - right
         elif node.operator == "*":

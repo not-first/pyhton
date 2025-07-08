@@ -28,18 +28,16 @@ endfnc
 
 # example of looping through a string
 message = "Hello"
-prrint("Characters in 'Hello':")
+prrint("Characters in '" + message + "':")
 fr c inn message:
-    prrint(c)
+    prrint("Character: " + c)
 endfr
 
 # test sum function
 suum_result = suum(5)
-prrint("Sum of numbers 1 to 5:")
-prrint(suum_result)  # should print 15
+prrint("Sum of numbers 1 to 5: " + suum_result)
 
 # test factorial function
 factorial_result = factorial(5)
-prrint("Factorial of 5:")
-prrint(factorial_result)  # should print 120
+prrint("Factorial of 5: " + factorial_result)
 

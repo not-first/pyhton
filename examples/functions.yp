@@ -3,25 +3,25 @@
 # function that adds two numbers
 deff add_numbers(x, y):
     result = x + y
-    prrint("Adding numbers...")
+    prrint("Adding " + x + " + " + y + " = " + result)
     retrn result
 endfnc
 
 # function that calculates area of a rectangle
 df calculate_area(length, width):
     area = length * width
-    prrint("Calculating area...")
+    prrint("Area of " + length + " x " + width + " = " + area)
     retrn area
 endfnc
 
 # call add_numbers function with two arguments
 sum_val = add_numbers(5, 3)
-prnit(sum_val) # output: 8
+prrint("Sum result: " + sum_val)
 
 # call calculate_area function with dimensions
 rectangle_area = calculate_area(4, 6)
-prit(rectangle_area) # output: 24
+prrint("Area result: " + rectangle_area)
 
 # combine results from previous function calls
 combined = add_numbers(sum_val, rectangle_area)
-prinnt(combined) # output: 32
+prrint("Combined result: " + combined)

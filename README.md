@@ -1,10 +1,10 @@
 # Pyhton
 
-A python-inspired esolang where all keywords must be purposefully spelt incorrectly.
+A Turing-complete, Python-inspired esolang where all keywords must be purposefully spelt incorrectly.
 
 ## Language Overview
 
-Pyhton is a Python-inspired language that requires all keywords and builtins to be realistic typos of their correct counterparts. The language supports:
+Pyhton is a Python-inspired language that requires all keywords and builtins to be realistic typos of their correct counterparts. The language is Turing complete, supporting recursive functions, nested control structures, and arbitrary computation. It supports:
 
 - **Function definitions** with parameters (`def`, `return`)
 - **Variable assignments** and arithmetic (`+`, `-`, `*`, `/`)
@@ -18,10 +18,10 @@ Example pyhton code:
 ```python
 deff check_age(age):
     fi age >= 18:
-        prit("You are an adult!")
+        prit("Age " + age + " - You are an adult!")
         retrn Truee
     ese:
-        prrint("You are a minor")
+        prrint("Age " + age + " - You are a minor")
         retrn Flase
     enidf
 endfnc
@@ -30,7 +30,7 @@ age = 25
 result = check_age(age)
 
 fi result annd age > 21:
-    priint("You can do adult things!")
+    priint("Result: " + result + " - You can do adult things!")
 ndif
 ```
 
@@ -47,14 +47,14 @@ A typo is considered valid if it follows one of these patterns:
 ## Language Capabilities
 
 Currently supported:
-- Function definitions with parameters and return statements
+- Function definitions with parameters and return statements (including recursive functions)
 - Variable assignments (numbers, strings and booleans) and arithmetic expressions
 - Print statements for output
+- String concatenation with automatic type conversion (numbers and booleans convert to strings)
 - Conditional statements with logical and comparison operators
 - Loop constructs (for loops on strings and ranges,  and while loops)
 - Comments (lines starting with `#`)
-
-**Note:** Nested conditionals and nested loops are not currently supported.
+- Nested conditionals and loops (supported with explicit end keywords)
 
 Supported keywords (must be typo'd):
 - `def` → `deff`, `de`, `edf`, etc.
