@@ -70,14 +70,6 @@ pip install pyhton-cli
 ```
 
 
-### Running Code
-
-Create a `.yp` file with pyhton code:
-
-```python
-# example.yp
-```
-
 ### CLI Features
 
 The Pyhton interpreter includes several CLI options:
