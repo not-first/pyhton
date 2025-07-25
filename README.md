@@ -60,13 +60,15 @@ Support keywords:
 
 ## Try It Yourself
 
+
 ### Installation
 
+You can install Pyhton CLI directly from PyPI:
+
 ```bash
-git clone https://github.com/not-first/pyhton.git
-cd pyhton
-uv install -e .
+pip install pyhton-cli
 ```
+
 
 ### Running Code
 
@@ -74,16 +76,16 @@ Create a `.yp` file with pyhton code:
 
 ```python
 # example.yp
-df greet(name):
-    message = "Hello, " + name
-    prin(message)
-    erturn message
-endfnc
-
-# Call the function
-result = greet("World")
-prinnt("Result: " + result)
 ```
+
+### CLI Features
+
+The Pyhton interpreter includes several CLI options:
+
+**Debug Mode (`--debug` or `-d`)**
+- Shows detailed execution steps
+- Displays tokens, AST, and execution trace
+
 
 **Run a file:**
 ```bash
@@ -102,19 +104,14 @@ pyhton --interactive
 pyhton
 ```
 
-**Run directly with Python (no `uv`/`pip` required):**
+**(For development only)**
+If you want to run directly from source, clone the repo and use editable install:
 ```bash
-python main.py example.yp
+git clone https://github.com/not-first/pyhton.git
+cd pyhton
+pip install -e .
 ```
-
-### CLI Features
-
-The Pyhton interpreter includes several CLI options:
-
-**Debug Mode (`--debug` or `-d`)**
-- Shows detailed execution steps
-- Displays tokens, AST, and execution trace
-
+Then use the `pyhton` command as above.
 **Interactive Mode (`--interactive` or `-i`)**
 - REPL (Read-Eval-Print Loop) for live coding
 - Persistent state across commands
