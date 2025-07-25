@@ -1,9 +1,9 @@
 from blessed import Terminal
 
-from ..core.interpreter import Interpreter
-from ..core.lexer import Lexer
-from ..core.parser import Parser
-from .help import print_help
+from pyhton.core.interpreter import Interpreter
+from pyhton.core.lexer import Lexer
+from pyhton.core.parser import Parser
+from pyhton.cli.help import print_help
 
 term = Terminal()
 

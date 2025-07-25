@@ -3,8 +3,8 @@ import sys
 
 from blessed import Terminal
 
-from .file_runner import run_pyhton_file
-from .interactive import run_interactive_mode
+from pyhton.cli.file_runner import run_pyhton_file
+from pyhton.cli.interactive import run_interactive_mode
 
 term = Terminal()
 

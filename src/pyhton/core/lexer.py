@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional
 
-from ..language.typo_engine import TypoEngine
+from pyhton.language.typo_engine import TypoEngine
 
 
 class TokenType(Enum):

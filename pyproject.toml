@@ -11,23 +11,16 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["src*"]
+where = ["src"]
 
 [tool.setuptools.package-dir]
-"" = "."
+"" = "src"
 
 [project.scripts]
-pyhton = "main:main"
+pyhton = "pyhton.cli.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.4.1"]
 
 [tool.ruff]
 line-length = 120
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_functions = ["test_*"]
-pythonpath = ["."]

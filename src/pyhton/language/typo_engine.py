@@ -1,4 +1,4 @@
-from .python_words import ALL_WORDS
+from pyhton.language.python_words import ALL_WORDS
 
 
 class TypoEngine:

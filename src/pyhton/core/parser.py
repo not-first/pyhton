@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 from blessed import Terminal
 
-from .lexer import Token, TokenType
+from pyhton.core.lexer import Token, TokenType
 
 term = Terminal()
 

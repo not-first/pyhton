@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 from blessed import Terminal
 
-from .parser import (
+from pyhton.core.parser import (
     Assignment,
     ASTNode,
     BinaryOp,
