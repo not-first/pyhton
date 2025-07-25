@@ -1,5 +1,5 @@
 [project]
-name = "pyhton"
+name = "pyhton-cli"
 version = "0.1.0"
 description = "A python based esolang where every word must be a typo"
 readme = "README.md"
