@@ -14,6 +14,7 @@ class ASTNode:
 
 
 # expresions (things that evaluate to values)
+# comparisons can have left and right operands which are recursively ASTNodes
 @dataclass
 class NumberLiteral(ASTNode):
     value: float

@@ -60,7 +60,6 @@ Support keywords:
 
 ## Try It Yourself
 
-
 ### Installation
 
 You can install Pyhton CLI directly from PyPI:
